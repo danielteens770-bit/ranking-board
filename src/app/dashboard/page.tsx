@@ -224,19 +224,15 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-8 pb-10">
+    <div className="space-y-8 pb-10 max-w-5xl mx-auto">
       {/* Top Section (Plain/Border-free layout) */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-4 border-b border-stone-200/50 dark:border-stone-800/40">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-6 border-b border-stone-200 dark:border-stone-800">
         <div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400 border border-amber-200/40 mb-2">
-            <TrendingUp className="w-3.5 h-3.5" />
-            실시간 랭킹 시스템 작동 중
-          </span>
-          <h1 className="text-3xl md:text-4xl font-black text-stone-900 dark:text-stone-50 tracking-tight">
-            {getFullMonthName(selectedMonth)} 칭찬 랭킹
+          <h1 className="text-3xl md:text-4xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
+            다니엘틴즈 칭찬왕 대시보드
           </h1>
           <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
-            학교 구성원들이 전한 따뜻한 이야기를 실시간 랭킹으로 확인해 보세요.
+            학교 구성원들이 전한 따뜻한 이야기를 실시간으로 확인해 보세요.
           </p>
         </div>
 
@@ -249,7 +245,7 @@ export default function DashboardPage() {
                 setLoading(true);
                 setSelectedMonth(e.target.value);
               }}
-              className="appearance-none pl-10 pr-10 py-3 bg-stone-100 hover:bg-stone-250/50 dark:bg-stone-850 dark:hover:bg-stone-800 text-stone-800 dark:text-stone-200 font-bold rounded-2xl text-sm transition-all cursor-pointer focus:outline-hidden"
+              className="appearance-none pl-10 pr-10 py-3 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-750 text-stone-850 dark:text-stone-100 font-bold rounded-2xl text-sm transition-all cursor-pointer focus:outline-hidden"
               aria-label="조회할 월 선택"
             >
               {availableMonths.map((m) => (
@@ -264,7 +260,7 @@ export default function DashboardPage() {
 
           <button
             onClick={() => setInputModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-5 py-3 bg-gradient-to-r from-amber-500 to-orange-400 hover:from-amber-600 hover:to-orange-500 text-white font-bold rounded-2xl text-sm transition-all shadow-md shadow-amber-500/10 hover:shadow-lg hover:shadow-amber-500/20 active:scale-98 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-6 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-stone-50 dark:text-stone-900 font-extrabold rounded-2xl text-sm transition-all active:scale-98 cursor-pointer shadow-sm"
             aria-label="데이터 입력"
           >
             데이터 입력
@@ -277,231 +273,125 @@ export default function DashboardPage() {
         /* Loading Skeleton */
         <div className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="h-52 rounded-3xl skeleton" />
-            <div className="h-52 rounded-3xl skeleton" />
-            <div className="h-52 rounded-3xl skeleton" />
+            <div className="h-64 rounded-3xl skeleton" />
+            <div className="h-64 rounded-3xl skeleton" />
+            <div className="h-64 rounded-3xl skeleton" />
           </div>
-          <div className="h-96 rounded-3xl skeleton" />
         </div>
       ) : (
         <>
           {/* Top 3 Cards — 동일한 크기의 3-column grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 이달의 칭찬왕 */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-amber-500/15 via-orange-400/5 to-transparent dark:from-amber-950/30 dark:via-orange-950/15 dark:to-transparent border-2 border-amber-400/50 dark:border-amber-900/40 rounded-3xl p-6 flex flex-col justify-between group hover:scale-[1.01] transition-all duration-300 shadow-md shadow-amber-500/5">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-bl-full pointer-events-none" />
+            <div
+              onClick={() => topReceived && openDetailModal(topReceived.id, topReceived.name, topReceived.role, 'received')}
+              className={`relative overflow-hidden bg-white dark:bg-stone-850 border-2 ${
+                topReceived
+                  ? 'border-amber-400 dark:border-amber-500/60 hover:border-amber-500 dark:hover:border-amber-400 cursor-pointer'
+                  : 'border-stone-200 dark:border-stone-800'
+              } rounded-3xl p-8 flex flex-col justify-between h-72 group hover:scale-[1.02] transition-all duration-300 shadow-sm`}
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-bl-full pointer-events-none" />
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1.5 rounded-full text-xs font-black bg-amber-500 text-white shadow-xs">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="px-4 py-2 rounded-full text-sm font-black bg-amber-500 text-white shadow-xs">
                     🏆 이달의 칭찬왕
                   </span>
-                  <Trophy className="w-6 h-6 text-amber-500 fill-amber-500/10" />
+                  <Trophy className="w-7 h-7 text-amber-500 fill-amber-500/10" />
                 </div>
                 {topReceived ? (
-                  <button
-                    onClick={() => openDetailModal(topReceived.id, topReceived.name, topReceived.role, 'received')}
-                    className="text-2xl font-black text-stone-900 dark:text-stone-50 hover:text-amber-600 dark:hover:text-amber-400 transition-colors text-left focus:outline-none cursor-pointer tracking-tight"
-                  >
-                    {topReceived.name}
-                    <span className="text-xs font-normal text-stone-500 dark:text-stone-400 ml-1.5">
+                  <div className="space-y-1">
+                    <h2 className="text-3xl md:text-4xl font-black text-stone-900 dark:text-stone-50 tracking-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                      {topReceived.name}
+                    </h2>
+                    <span className="text-sm font-semibold text-stone-500 dark:text-stone-400">
                       ({topReceived.role === 'student' ? '학생' : '선생님'})
                     </span>
-                  </button>
+                  </div>
                 ) : (
-                  <span className="text-lg font-medium text-stone-400">-</span>
+                  <span className="text-2xl font-bold text-stone-400">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between">
-                <span className="text-xs text-stone-500 dark:text-stone-400">가장 많이 칭찬받음</span>
-                <span className="text-base font-extrabold text-amber-600 dark:text-amber-400">
+              <div className="mt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800/80 pt-4">
+                <span className="text-xs font-medium text-stone-500 dark:text-stone-400">가장 많이 칭찬받음</span>
+                <span className="text-lg font-black text-amber-600 dark:text-amber-400">
                   {topReceived ? `${topReceived.count}회 받음` : '0회'}
                 </span>
               </div>
             </div>
 
             {/* 칭마에(학생) */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent dark:from-indigo-950/20 dark:via-purple-950/10 dark:to-transparent border border-indigo-300/35 dark:border-indigo-900/30 rounded-3xl p-6 flex flex-col justify-between group hover:scale-[1.01] transition-all duration-300 shadow-xs">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/10 rounded-bl-full pointer-events-none" />
+            <div
+              onClick={() => topStudentGiver && openDetailModal(topStudentGiver.id, topStudentGiver.name, topStudentGiver.role, 'given')}
+              className={`relative overflow-hidden bg-white dark:bg-stone-850 border-2 ${
+                topStudentGiver
+                  ? 'border-indigo-400 dark:border-indigo-500/60 hover:border-indigo-500 dark:hover:border-indigo-400 cursor-pointer'
+                  : 'border-stone-200 dark:border-stone-800'
+              } rounded-3xl p-8 flex flex-col justify-between h-72 group hover:scale-[1.02] transition-all duration-300 shadow-sm`}
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-bl-full pointer-events-none" />
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-indigo-500 text-white shadow-xs">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="px-4 py-2 rounded-full text-sm font-black bg-indigo-55 text-white shadow-xs">
                     🌟 칭마에 (학생)
                   </span>
-                  <UserCheck className="w-6 h-6 text-indigo-500" />
+                  <UserCheck className="w-7 h-7 text-indigo-500" />
                 </div>
                 {topStudentGiver ? (
-                  <button
-                    onClick={() => openDetailModal(topStudentGiver.id, topStudentGiver.name, topStudentGiver.role, 'given')}
-                    className="text-2xl font-black text-stone-900 dark:text-stone-50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors text-left focus:outline-none cursor-pointer"
-                  >
-                    {topStudentGiver.name}
-                    <span className="text-xs font-normal text-stone-500 dark:text-stone-400 ml-1.5">(학생)</span>
-                  </button>
+                  <div className="space-y-1">
+                    <h2 className="text-3xl md:text-4xl font-black text-stone-900 dark:text-stone-50 tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {topStudentGiver.name}
+                    </h2>
+                    <span className="text-sm font-semibold text-stone-500 dark:text-stone-400">(학생)</span>
+                  </div>
                 ) : (
-                  <span className="text-lg font-medium text-stone-400">-</span>
+                  <span className="text-2xl font-bold text-stone-400">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between">
-                <span className="text-xs text-stone-500 dark:text-stone-400">가장 많이 칭찬한 학생</span>
-                <span className="text-base font-extrabold text-indigo-600 dark:text-indigo-400">
+              <div className="mt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800/80 pt-4">
+                <span className="text-xs font-medium text-stone-500 dark:text-stone-400">가장 많이 칭찬한 학생</span>
+                <span className="text-lg font-black text-indigo-65 dark:text-indigo-400">
                   {topStudentGiver ? `${topStudentGiver.count}회 작성` : '0회'}
                 </span>
               </div>
             </div>
 
             {/* 칭마에(교사) */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent dark:from-emerald-950/20 dark:via-teal-950/10 dark:to-transparent border border-emerald-300/35 dark:border-emerald-900/30 rounded-3xl p-6 flex flex-col justify-between group hover:scale-[1.01] transition-all duration-300 shadow-xs">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-bl-full pointer-events-none" />
+            <div
+              onClick={() => topTeacherGiver && openDetailModal(topTeacherGiver.id, topTeacherGiver.name, topTeacherGiver.role, 'given')}
+              className={`relative overflow-hidden bg-white dark:bg-stone-850 border-2 ${
+                topTeacherGiver
+                  ? 'border-emerald-400 dark:border-emerald-500/60 hover:border-emerald-500 dark:hover:border-emerald-400 cursor-pointer'
+                  : 'border-stone-200 dark:border-stone-800'
+              } rounded-3xl p-8 flex flex-col justify-between h-72 group hover:scale-[1.02] transition-all duration-300 shadow-sm`}
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500 text-white shadow-xs">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="px-4 py-2 rounded-full text-sm font-black bg-emerald-55 text-white shadow-xs">
                     👩‍🏫 칭마에 (교사)
                   </span>
-                  <GraduationCap className="w-6 h-6 text-emerald-500" />
+                  <GraduationCap className="w-7 h-7 text-emerald-500" />
                 </div>
                 {topTeacherGiver ? (
-                  <button
-                    onClick={() => openDetailModal(topTeacherGiver.id, topTeacherGiver.name, topTeacherGiver.role, 'given')}
-                    className="text-2xl font-black text-stone-900 dark:text-stone-50 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors text-left focus:outline-none cursor-pointer"
-                  >
-                    {topTeacherGiver.name}
-                    <span className="text-xs font-normal text-stone-500 dark:text-stone-400 ml-1.5">(선생님)</span>
-                  </button>
+                  <div className="space-y-1">
+                    <h2 className="text-3xl md:text-4xl font-black text-stone-900 dark:text-stone-50 tracking-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                      {topTeacherGiver.name}
+                    </h2>
+                    <span className="text-sm font-semibold text-stone-500 dark:text-stone-400">(선생님)</span>
+                  </div>
                 ) : (
-                  <span className="text-lg font-medium text-stone-400">-</span>
+                  <span className="text-2xl font-bold text-stone-400">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between">
-                <span className="text-xs text-stone-500 dark:text-stone-400">가장 많이 칭찬한 선생님</span>
-                <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
+              <div className="mt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800/80 pt-4">
+                <span className="text-xs font-medium text-stone-500 dark:text-stone-400">가장 많이 칭찬한 선생님</span>
+                <span className="text-lg font-black text-emerald-65 dark:text-emerald-400">
                   {topTeacherGiver ? `${topTeacherGiver.count}회 작성` : '0회'}
                 </span>
               </div>
             </div>
           </div>
-
-          {/* Empty Data Banner */}
-          {praises.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-stone-900/40 rounded-3xl border border-stone-200/50 dark:border-stone-850/40 text-center p-6">
-              <div className="p-4 bg-amber-50 dark:bg-amber-950/20 rounded-full text-amber-500 mb-4 scale-110">
-                <MessageSquareHeart className="w-8 h-8" />
-              </div>
-              <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100">
-                아직 이번 달 칭찬 데이터가 없습니다
-              </h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 mt-1 max-w-xs">
-                첫 번째 따뜻한 마음의 주인공이 되어 보세요! 우측 상단의 '데이터 입력' 버튼에서 칭찬을 등록할 수 있습니다.
-              </p>
-              <button
-                onClick={() => setInputModalOpen(true)}
-                className="mt-5 px-5 py-2.5 bg-stone-900 dark:bg-stone-100 hover:bg-stone-850 dark:hover:bg-stone-200 text-stone-50 dark:text-stone-900 text-sm font-semibold rounded-xl transition-all cursor-pointer"
-              >
-                칭찬 작성하러 가기
-              </button>
-            </div>
-          ) : (
-            /* Ranking Table Section */
-            <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs overflow-hidden">
-              {/* Tab Header */}
-              <div className="flex border-b border-stone-200/60 dark:border-stone-800/60 p-2 gap-2 bg-stone-50/50 dark:bg-stone-950/10">
-                <button
-                  onClick={() => setRankingTab('received')}
-                  className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all focus:outline-hidden cursor-pointer ${
-                    rankingTab === 'received'
-                      ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm border border-stone-200/30'
-                      : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/30 dark:hover:bg-stone-850/30'
-                  }`}
-                >
-                  <Trophy className="w-4 h-4" />
-                  칭찬 많이 받은 순
-                </button>
-                <button
-                  onClick={() => setRankingTab('given')}
-                  className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all focus:outline-hidden cursor-pointer ${
-                    rankingTab === 'given'
-                      ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm border border-stone-200/30'
-                      : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/30 dark:hover:bg-stone-850/30'
-                  }`}
-                >
-                  <Users className="w-4 h-4" />
-                  칭찬 많이 한 순 (칭마에)
-                </button>
-              </div>
-
-              {/* Table List */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-stone-100/50 dark:bg-stone-850/30 border-b border-stone-200/60 dark:border-stone-800/60">
-                      <th className="px-6 py-4 text-xs font-semibold text-stone-500 uppercase tracking-wider w-20 text-center">순위</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-stone-500 uppercase tracking-wider">이름</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-stone-500 uppercase tracking-wider w-32 text-center">구분</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-stone-500 uppercase tracking-wider w-40 text-right">칭찬 횟수</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
-                    {(rankingTab === 'received' ? receivedRankings : [
-                      ...studentGivenRankings,
-                      ...teacherGivenRankings
-                    ].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))).map((item, idx, arr) => {
-                      // Custom ranking mapping (handling duplicates)
-                      let rank = idx + 1;
-                      if (idx > 0 && arr[idx - 1].count === item.count) {
-                        // find matching rank
-                        let firstMatch = arr.findIndex(x => x.count === item.count);
-                        rank = firstMatch + 1;
-                      }
-
-                      return (
-                        <tr
-                          key={item.id}
-                          className="hover:bg-stone-50/40 dark:hover:bg-stone-850/10 transition-colors"
-                        >
-                          <td className="px-6 py-4 text-center">
-                            <span
-                              className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                                rank === 1
-                                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
-                                  : rank === 2
-                                  ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
-                                  : rank === 3
-                                  ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
-                                  : 'text-stone-500 dark:text-stone-400'
-                              }`}
-                            >
-                              {rank}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 font-semibold">
-                            <button
-                              onClick={() => openDetailModal(item.id, item.name, item.role, rankingTab)}
-                              className="text-stone-900 dark:text-stone-100 hover:text-amber-600 dark:hover:text-amber-400 hover:underline transition-all text-left focus:outline-hidden cursor-pointer"
-                            >
-                              {item.name}
-                            </button>
-                          </td>
-                          <td className="px-6 py-4 text-center">
-                            <span
-                              className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                                item.role === 'student'
-                                  ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                  : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
-                              }`}
-                            >
-                              {item.role === 'student' ? '학생' : '선생님'}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 text-right font-black text-stone-900 dark:text-stone-100">
-                            {item.count}회
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
         </>
       )}
 
