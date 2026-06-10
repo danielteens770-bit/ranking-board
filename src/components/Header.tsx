@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Heart, LayoutDashboard, PlusCircle } from 'lucide-react';
+import { Heart, LayoutDashboard, List } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
@@ -39,15 +39,15 @@ export const Header: React.FC = () => {
             대시보드
           </Link>
           <Link
-            href="/admin"
+            href="/list"
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
-              isActive('/admin')
+              isActive('/list')
                 ? 'bg-amber-100/60 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400'
                 : 'text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-stone-850'
             }`}
           >
-            <PlusCircle className="w-4 h-4" />
-            데이터 입력
+            <List className="w-4 h-4" />
+            칭찬 list
           </Link>
         </nav>
       </div>

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Trophy, PenTool } from 'lucide-react';
+import { Trophy, List } from 'lucide-react';
 
 export const TabBar: React.FC = () => {
   const pathname = usePathname();
@@ -27,16 +27,16 @@ export const TabBar: React.FC = () => {
         <span className="text-2xs">대시보드</span>
       </Link>
       <Link
-        href="/admin"
+        href="/list"
         className={`flex flex-col items-center gap-1 flex-1 text-center py-1 transition-all ${
-          isActive('/admin')
+          isActive('/list')
             ? 'text-amber-600 dark:text-amber-400 font-bold scale-105'
             : 'text-stone-500 dark:text-stone-400 font-medium'
         }`}
-        aria-label="데이터 입력 페이지로 이동"
+        aria-label="칭찬 list 페이지로 이동"
       >
-        <PenTool className="w-5 h-5" />
-        <span className="text-2xs">데이터 입력</span>
+        <List className="w-5 h-5" />
+        <span className="text-2xs">칭찬 list</span>
       </Link>
     </div>
   );
