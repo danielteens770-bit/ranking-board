@@ -183,7 +183,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
         {status !== 'success' && status !== 'error' && (
           <div className="px-6 pb-4 pt-2 md:py-5 border-b border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-amber-500/10 text-amber-600 rounded-xl">
+              <div className="p-2 bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-xl">
                 <Award className="w-5 h-5" />
               </div>
               <div>
@@ -209,10 +209,10 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
           {status === 'input' && (
             <form onSubmit={handleSave} className="space-y-5">
 
-              {/* Field 1: 칭찬왕 — 받는 사람 (텍스트 입력) */}
+              {/* Field 1: 칭찬 받는 사람 */}
               <div className="space-y-2">
                 <label htmlFor="receiver-name" className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
-                  칭찬왕 <span className="font-normal text-stone-400">(받는 사람 이름)</span> <span className="text-rose-500">*</span>
+                  칭찬 받는 사람 <span className="text-rose-500">*</span>
                 </label>
                 <input
                   id="receiver-name"
@@ -221,14 +221,14 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                   onChange={(e) => setReceiverName(e.target.value)}
                   placeholder="예: 홍길동"
                   autoComplete="off"
-                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-all text-stone-900 dark:text-stone-100 placeholder-stone-350 dark:placeholder-stone-600"
+                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 dark:text-stone-100 placeholder-stone-350 dark:placeholder-stone-600"
                 />
               </div>
 
-              {/* Field 2: 칭마에 구분 (학생 / 선생님 토글) */}
+              {/* Field 2: 보낸 사람 구분 */}
               <div className="space-y-2">
                 <label className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
-                  칭마에 구분 <span className="font-normal text-stone-400">(보낸 사람 역할)</span> <span className="text-rose-500">*</span>
+                  보낸 사람 구분 <span className="text-rose-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
@@ -236,7 +236,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                     onClick={() => setGiverRole('student')}
                     className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all ${
                       giverRole === 'student'
-                        ? 'bg-indigo-50 border-indigo-300 text-indigo-700 dark:bg-indigo-950/20 dark:border-indigo-900 dark:text-indigo-400'
+                        ? 'bg-stone-950 border-stone-950 text-white dark:bg-stone-100 dark:border-stone-100 dark:text-stone-950'
                         : 'bg-white dark:bg-stone-850 border-stone-200 dark:border-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/40'
                     }`}
                   >
@@ -247,7 +247,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                     onClick={() => setGiverRole('teacher')}
                     className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all ${
                       giverRole === 'teacher'
-                        ? 'bg-emerald-50 border-emerald-300 text-emerald-700 dark:bg-emerald-950/20 dark:border-emerald-900 dark:text-emerald-400'
+                        ? 'bg-stone-950 border-stone-950 text-white dark:bg-stone-100 dark:border-stone-100 dark:text-stone-950'
                         : 'bg-white dark:bg-stone-850 border-stone-200 dark:border-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/40'
                     }`}
                   >
@@ -256,19 +256,19 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                 </div>
               </div>
 
-              {/* Field 3: 칭마에 — 보낸 사람 (텍스트 입력) */}
+              {/* Field 3: 칭찬 보낸 사람 */}
               <div className="space-y-2">
                 <label htmlFor="giver-name" className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
-                  칭마에 <span className="font-normal text-stone-400">(보낸 사람 이름)</span> <span className="text-rose-500">*</span>
+                  칭찬 보낸 사람 <span className="text-rose-500">*</span>
                 </label>
                 <input
                   id="giver-name"
                   type="text"
                   value={giverName}
                   onChange={(e) => setGiverName(e.target.value)}
-                  placeholder={giverRole === 'student' ? '예: 김철수 (학생)' : '예: 이선생 (선생님)'}
+                  placeholder="예: 김철수"
                   autoComplete="off"
-                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-all text-stone-900 dark:text-stone-100 placeholder-stone-350 dark:placeholder-stone-600"
+                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 dark:text-stone-100 placeholder-stone-350 dark:placeholder-stone-600"
                 />
               </div>
 
@@ -283,7 +283,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="따뜻한 칭찬의 한 마디를 작성해 주세요."
                   rows={4}
-                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-all text-stone-900 dark:text-stone-100 resize-none leading-relaxed"
+                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 dark:text-stone-100 resize-none leading-relaxed"
                 />
               </div>
 
@@ -298,7 +298,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-gradient-to-r from-amber-500 to-orange-400 hover:from-amber-600 hover:to-orange-500 text-white font-bold rounded-2xl text-sm transition-all shadow-md shadow-amber-500/10 flex items-center justify-center gap-1.5 active:scale-98"
+                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 font-bold rounded-2xl text-sm transition-all flex items-center justify-center gap-1.5 active:scale-98"
                 >
                   <Save className="w-4 h-4" />
                   저장하기
@@ -309,17 +309,17 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
 
           {status === 'saving' && (
             <div className="flex flex-col items-center justify-center py-16 space-y-4">
-              <Loader2 className="w-10 h-10 text-amber-500 animate-spin" />
+              <Loader2 className="w-10 h-10 text-stone-500 animate-spin" />
               <p className="text-sm font-bold text-stone-700 dark:text-stone-300">칭찬 내역을 저장하는 중...</p>
             </div>
           )}
 
           {status === 'success' && (
             <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
-              <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-500 rounded-full flex items-center justify-center mb-6 border border-emerald-100 dark:border-emerald-900/30">
-                <CheckCircle2 className="w-8 h-8 fill-current text-emerald-500" />
+              <div className="w-16 h-16 bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-full flex items-center justify-center mb-6 border border-stone-200 dark:border-stone-700">
+                <CheckCircle2 className="w-8 h-8 fill-current text-stone-900 dark:text-stone-100" />
               </div>
-              <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 mb-2">저장 성공 (Success)!</h3>
+              <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 mb-2">저장 성공</h3>
               <p className="text-sm text-stone-500 dark:text-stone-400 max-w-xs mb-8">
                 칭찬 데이터가 정상적으로 저장되었습니다. 따뜻한 말씀 감사합니다!
               </p>
@@ -334,7 +334,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl text-sm transition-all shadow-xs"
+                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 font-bold rounded-2xl text-sm transition-all"
                 >
                   완료 및 닫기
                 </button>
@@ -344,11 +344,11 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
 
           {status === 'error' && (
             <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
-              <div className="w-16 h-16 bg-rose-50 dark:bg-rose-950/20 text-rose-500 rounded-full flex items-center justify-center mb-6 border border-rose-100 dark:border-rose-900/30">
-                <AlertCircle className="w-8 h-8 text-rose-500" />
+              <div className="w-16 h-16 bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-full flex items-center justify-center mb-6 border border-stone-200 dark:border-stone-700">
+                <AlertCircle className="w-8 h-8 text-stone-900 dark:text-stone-100" />
               </div>
-              <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 mb-2">저장 실패 (Fail)</h3>
-              <p className="text-sm text-rose-600 dark:text-rose-400 max-w-xs mb-2 font-medium">
+              <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 mb-2">저장 실패</h3>
+              <p className="text-sm text-stone-600 dark:text-stone-400 max-w-xs mb-2 font-medium">
                 다시 작성해주세요
               </p>
               <p className="text-xs text-stone-400 dark:text-stone-500 max-w-xs mb-8">
@@ -365,7 +365,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-bold rounded-2xl text-sm transition-colors"
+                  className="flex-1 py-3 bg-stone-100 dark:bg-stone-850 text-stone-750 dark:text-stone-300 font-bold rounded-2xl text-sm transition-colors"
                 >
                   닫기
                 </button>
