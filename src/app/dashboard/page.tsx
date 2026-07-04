@@ -19,13 +19,45 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+// KST Helper Functions
+const getCurrentKSTMonth = (): string => {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+  });
+  const parts = formatter.formatToParts(now);
+  const year = parts.find(p => p.type === 'year')?.value || '2026';
+  const month = parts.find(p => p.type === 'month')?.value || '07';
+  return `${year}-${month}`;
+};
+
+const getAvailableMonthsList = (startMonth: string): string[] => {
+  const months: string[] = [];
+  let [year, month] = startMonth.split('-').map(Number);
+  for (let i = 0; i < 12; i++) {
+    const formattedMonth = String(month).padStart(2, '0');
+    months.push(`${year}-${formattedMonth}`);
+    month--;
+    if (month < 1) {
+      month = 12;
+      year--;
+    }
+  }
+  return months;
+};
+
 export default function DashboardPage() {
   const { showToast } = useToast();
   
+  const currentKSTMonth = React.useMemo(() => getCurrentKSTMonth(), []);
+  const availableMonths = React.useMemo(() => getAvailableMonthsList(currentKSTMonth), [currentKSTMonth]);
+
   // State variables
   const [users, setUsers] = useState<User[]>([]);
   const [praises, setPraises] = useState<Praise[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string>('2026-06'); // Current local time is June 2026
+  const [selectedMonth, setSelectedMonth] = useState<string>(currentKSTMonth);
   const [loading, setLoading] = useState<boolean>(true);
   const [rankingTab, setRankingTab] = useState<'received' | 'given'>('received');
   
@@ -47,12 +79,6 @@ export default function DashboardPage() {
 
   // Input Modal State
   const [inputModalOpen, setInputModalOpen] = useState<boolean>(false);
-
-  // Generated months list (last 12 months from 2026-06)
-  const availableMonths = [
-    '2026-06', '2026-05', '2026-04', '2026-03', '2026-02', '2026-01',
-    '2025-12', '2025-11', '2025-10', '2025-09', '2025-08', '2025-07'
-  ];
 
   // Fetch initial data
   const fetchData = useCallback(async () => {
@@ -145,14 +171,19 @@ export default function DashboardPage() {
     .filter((item) => item.count > 0)
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
-  // Get Top 1s
-  const topReceived = receivedRankings[0] || null;
-  const topStudentGiver = studentGivenRankings[0] || null;
-  const topTeacherGiver = teacherGivenRankings[0] || null;
+  // Get Top 1s (including co-first places)
+  const maxReceivedCount = receivedRankings[0]?.count || 0;
+  const topReceivers = receivedRankings.filter(r => r.count === maxReceivedCount && maxReceivedCount > 0);
+
+  const maxStudentGivenCount = studentGivenRankings[0]?.count || 0;
+  const topStudentGivers = studentGivenRankings.filter(r => r.count === maxStudentGivenCount && maxStudentGivenCount > 0);
+
+  const maxTeacherGivenCount = teacherGivenRankings[0]?.count || 0;
+  const topTeacherGivers = teacherGivenRankings.filter(r => r.count === maxTeacherGivenCount && maxTeacherGivenCount > 0);
 
   // Trigger confetti for the top receiver if ranking loaded and has count
   useEffect(() => {
-    if (!loading && topReceived && topReceived.count > 0) {
+    if (!loading && topReceivers.length > 0) {
       const duration = 2 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 40 };
@@ -175,7 +206,7 @@ export default function DashboardPage() {
 
       return () => clearInterval(interval);
     }
-  }, [loading, selectedMonth, praises.length]); // fire on month change or praises count change
+  }, [loading, selectedMonth, praises.length, topReceivers.length]); // fire on month change or praises count change or top receivers count change
 
   // Handle open detail modal
   const openDetailModal = (userId: string, userName: string, userRole: UserRole, mode: 'received' | 'given') => {
@@ -284,9 +315,9 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 칭찬왕 */}
             <div
-              onClick={() => topReceived && openDetailModal(topReceived.id, topReceived.name, topReceived.role, 'received')}
+              onClick={() => topReceivers.length > 0 && openDetailModal(topReceivers[0].id, topReceivers[0].name, topReceivers[0].role, 'received')}
               className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
-                topReceived ? 'cursor-pointer' : ''
+                topReceivers.length > 0 ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
@@ -295,10 +326,25 @@ export default function DashboardPage() {
                     칭찬왕
                   </span>
                 </div>
-                {topReceived ? (
+                {topReceivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-amber-950 dark:text-amber-100 tracking-tight transition-colors">
-                      {topReceived.name}
+                    <h2 className="text-4xl md:text-5xl font-black text-amber-950 dark:text-amber-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1">
+                      {topReceivers.map((item, idx) => (
+                        <React.Fragment key={item.id}>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openDetailModal(item.id, item.name, item.role, 'received');
+                            }}
+                            className="hover:underline cursor-pointer"
+                          >
+                            {item.name}
+                          </span>
+                          {idx < topReceivers.length - 1 && (
+                            <span className="text-amber-400/80 dark:text-amber-600/80 font-medium mr-1">,</span>
+                          )}
+                        </React.Fragment>
+                      ))}
                     </h2>
                   </div>
                 ) : (
@@ -308,16 +354,16 @@ export default function DashboardPage() {
               <div className="mt-6 flex items-center justify-between border-t border-amber-200/60 dark:border-amber-900/30 pt-4">
                 <span className="text-xs font-semibold text-amber-700/80 dark:text-amber-400/80">횟수</span>
                 <span className="text-2xl font-black text-amber-950 dark:text-amber-100">
-                  {topReceived ? `${topReceived.count}회` : '0회'}
+                  {topReceivers.length > 0 ? `${topReceivers[0].count}회` : '0회'}
                 </span>
               </div>
             </div>
 
             {/* 칭마에(학생) */}
             <div
-              onClick={() => topStudentGiver && openDetailModal(topStudentGiver.id, topStudentGiver.name, topStudentGiver.role, 'given')}
+              onClick={() => topStudentGivers.length > 0 && openDetailModal(topStudentGivers[0].id, topStudentGivers[0].name, topStudentGivers[0].role, 'given')}
               className={`relative overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100/60 dark:from-indigo-955/20 dark:to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-350 dark:hover:border-indigo-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
-                topStudentGiver ? 'cursor-pointer' : ''
+                topStudentGivers.length > 0 ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
@@ -326,10 +372,25 @@ export default function DashboardPage() {
                     칭마에(학생)
                   </span>
                 </div>
-                {topStudentGiver ? (
+                {topStudentGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-indigo-950 dark:text-indigo-100 tracking-tight transition-colors">
-                      {topStudentGiver.name}
+                    <h2 className="text-4xl md:text-5xl font-black text-indigo-950 dark:text-indigo-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1">
+                      {topStudentGivers.map((item, idx) => (
+                        <React.Fragment key={item.id}>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openDetailModal(item.id, item.name, item.role, 'given');
+                            }}
+                            className="hover:underline cursor-pointer"
+                          >
+                            {item.name}
+                          </span>
+                          {idx < topStudentGivers.length - 1 && (
+                            <span className="text-indigo-400/80 dark:text-indigo-600/80 font-medium mr-1">,</span>
+                          )}
+                        </React.Fragment>
+                      ))}
                     </h2>
                   </div>
                 ) : (
@@ -339,16 +400,16 @@ export default function DashboardPage() {
               <div className="mt-6 flex items-center justify-between border-t border-indigo-200/60 dark:border-indigo-900/30 pt-4">
                 <span className="text-xs font-semibold text-indigo-700/80 dark:text-indigo-400/80">횟수</span>
                 <span className="text-2xl font-black text-indigo-950 dark:text-indigo-100">
-                  {topStudentGiver ? `${topStudentGiver.count}회` : '0회'}
+                  {topStudentGivers.length > 0 ? `${topStudentGivers[0].count}회` : '0회'}
                 </span>
               </div>
             </div>
 
             {/* 칭마에(교사) */}
             <div
-              onClick={() => topTeacherGiver && openDetailModal(topTeacherGiver.id, topTeacherGiver.name, topTeacherGiver.role, 'given')}
+              onClick={() => topTeacherGivers.length > 0 && openDetailModal(topTeacherGivers[0].id, topTeacherGivers[0].name, topTeacherGivers[0].role, 'given')}
               className={`relative overflow-hidden bg-gradient-to-br from-emerald-50 to-emerald-100/60 dark:from-emerald-955/20 dark:to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-350 dark:hover:border-emerald-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
-                topTeacherGiver ? 'cursor-pointer' : ''
+                topTeacherGivers.length > 0 ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
@@ -357,10 +418,25 @@ export default function DashboardPage() {
                     칭마에(교사)
                   </span>
                 </div>
-                {topTeacherGiver ? (
+                {topTeacherGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-emerald-950 dark:text-emerald-100 tracking-tight transition-colors">
-                      {topTeacherGiver.name}
+                    <h2 className="text-4xl md:text-5xl font-black text-emerald-950 dark:text-emerald-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1">
+                      {topTeacherGivers.map((item, idx) => (
+                        <React.Fragment key={item.id}>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openDetailModal(item.id, item.name, item.role, 'given');
+                            }}
+                            className="hover:underline cursor-pointer"
+                          >
+                            {item.name}
+                          </span>
+                          {idx < topTeacherGivers.length - 1 && (
+                            <span className="text-emerald-400/80 dark:text-emerald-600/80 font-medium mr-1">,</span>
+                          )}
+                        </React.Fragment>
+                      ))}
                     </h2>
                   </div>
                 ) : (
@@ -370,7 +446,7 @@ export default function DashboardPage() {
               <div className="mt-6 flex items-center justify-between border-t border-emerald-200/60 dark:border-emerald-900/30 pt-4">
                 <span className="text-xs font-semibold text-emerald-700/80 dark:text-emerald-400/80">횟수</span>
                 <span className="text-2xl font-black text-emerald-955 dark:text-emerald-100">
-                  {topTeacherGiver ? `${topTeacherGiver.count}회` : '0회'}
+                  {topTeacherGivers.length > 0 ? `${topTeacherGivers[0].count}회` : '0회'}
                 </span>
               </div>
             </div>

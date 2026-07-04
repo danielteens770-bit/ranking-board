@@ -20,6 +20,35 @@ import {
   Calendar,
 } from 'lucide-react';
 
+// KST Helper Functions
+const getCurrentKSTMonth = (): string => {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+  });
+  const parts = formatter.formatToParts(now);
+  const year = parts.find(p => p.type === 'year')?.value || '2026';
+  const month = parts.find(p => p.type === 'month')?.value || '07';
+  return `${year}-${month}`;
+};
+
+const getAvailableMonthsList = (startMonth: string): string[] => {
+  const months: string[] = [];
+  let [year, month] = startMonth.split('-').map(Number);
+  for (let i = 0; i < 12; i++) {
+    const formattedMonth = String(month).padStart(2, '0');
+    months.push(`${year}-${formattedMonth}`);
+    month--;
+    if (month < 1) {
+      month = 12;
+      year--;
+    }
+  }
+  return months;
+};
+
 export default function PraiseListPage() {
   const { showToast } = useToast();
 
@@ -31,9 +60,22 @@ export default function PraiseListPage() {
   const [praises, setPraises] = useState<Praise[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const currentKSTMonth = useMemo(() => getCurrentKSTMonth(), []);
+  const availableMonths = useMemo(() => getAvailableMonthsList(currentKSTMonth), [currentKSTMonth]);
+
+  const statsDateRangeLabel = useMemo(() => {
+    const limitDate = new Date(`${currentKSTMonth}-01`);
+    limitDate.setFullYear(limitDate.getFullYear() - 1);
+    const startYear = limitDate.getFullYear();
+    const startMonth = limitDate.getMonth() + 1;
+    const [endYear, endMonth] = currentKSTMonth.split('-').map(Number);
+    return `${startYear}년 ${startMonth}월 ~ ${endYear}년 ${endMonth}월`;
+  }, [currentKSTMonth]);
+
   // Filters for Praise List
   const [filterReceiverId, setFilterReceiverId] = useState<string>('');
   const [filterGiverId, setFilterGiverId] = useState<string>('');
+  const [filterMonth, setFilterMonth] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   // User Register Form states
@@ -141,10 +183,9 @@ export default function PraiseListPage() {
   };
 
   // 1-Year Aggregated Statistics (Last 12 Months)
-  // Current month context is '2026-06'
   const stats1Year = useMemo(() => {
-    const limitDate = new Date('2026-06-01');
-    limitDate.setFullYear(limitDate.getFullYear() - 1); // 1 year ago: 2025-06-01
+    const limitDate = new Date(`${currentKSTMonth}-01`);
+    limitDate.setFullYear(limitDate.getFullYear() - 1); // 1 year ago
 
     // Filter praises in the last 12 months
     const filtered1YearPraises = praises.filter((p) => {
@@ -177,13 +218,23 @@ export default function PraiseListPage() {
       topReceiver: sortedByReceived[0]?.received > 0 ? sortedByReceived[0] : null,
       topGiver: sortedByGiven[0]?.given > 0 ? sortedByGiven[0] : null,
     };
-  }, [praises, users]);
+  }, [praises, users, currentKSTMonth]);
 
   // Filtered Praises for the list tab
   const filteredPraisesList = useMemo(() => {
     return praises.filter((p) => {
       const matchReceiver = filterReceiverId ? p.receiver_id === filterReceiverId : true;
       const matchGiver = filterGiverId ? p.giver_id === filterGiverId : true;
+
+      let matchMonth = true;
+      if (filterMonth === '1year') {
+        const limitDate = new Date(`${currentKSTMonth}-01`);
+        limitDate.setFullYear(limitDate.getFullYear() - 1);
+        const pDate = new Date(`${p.month}-01`);
+        matchMonth = pDate >= limitDate;
+      } else if (filterMonth) {
+        matchMonth = p.month === filterMonth;
+      }
 
       const receiverObj = users.find((u) => u.id === p.receiver_id);
       const giverObj = users.find((u) => u.id === p.giver_id);
@@ -194,9 +245,9 @@ export default function PraiseListPage() {
         (giverObj && giverObj.name.toLowerCase().includes(keyword))
         : true;
 
-      return matchReceiver && matchGiver && matchKeyword;
+      return matchReceiver && matchGiver && matchMonth && matchKeyword;
     });
-  }, [praises, filterReceiverId, filterGiverId, searchKeyword, users]);
+  }, [praises, filterReceiverId, filterGiverId, filterMonth, searchKeyword, users, currentKSTMonth]);
 
   // Get user name helper
   const getUserLabel = (userId: string) => {
@@ -271,7 +322,25 @@ export default function PraiseListPage() {
                   <Filter className="w-4 h-4 text-amber-500" />
                   검색 필터
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                  {/* Filter Month */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-stone-500 dark:text-stone-400">기간 선택</label>
+                    <select
+                      value={filterMonth}
+                      onChange={(e) => setFilterMonth(e.target.value)}
+                      className="w-full px-3 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100"
+                    >
+                      <option value="">-- 전체 --</option>
+                      <option value="1year">최근 1년</option>
+                      {availableMonths.map((m) => (
+                        <option key={m} value={m}>
+                          {getFullMonthName(m)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* Filter Receiver (칭찬왕) */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-bold text-stone-500 dark:text-stone-400">칭찬왕 (받은 사람)</label>
@@ -323,12 +392,13 @@ export default function PraiseListPage() {
                 </div>
 
                 {/* Reset Filters */}
-                {(filterReceiverId || filterGiverId || searchKeyword) && (
+                {(filterReceiverId || filterGiverId || filterMonth || searchKeyword) && (
                   <div className="flex justify-end pt-2">
                     <button
                       onClick={() => {
                         setFilterReceiverId('');
                         setFilterGiverId('');
+                        setFilterMonth('');
                         setSearchKeyword('');
                       }}
                       className="text-xs font-semibold text-rose-500 hover:underline cursor-pointer"
@@ -456,7 +526,7 @@ export default function PraiseListPage() {
               <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs overflow-hidden">
                 <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex items-center gap-2">
                   <Trophy className="w-4 h-4 text-amber-500" />
-                  <span className="text-sm font-bold text-stone-900 dark:text-stone-100">1년 누적 종합 랭킹 (2025년 6월 ~ 2026년 6월)</span>
+                  <span className="text-sm font-bold text-stone-900 dark:text-stone-100">1년 누적 종합 랭킹 ({statsDateRangeLabel})</span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse text-sm">
