@@ -285,29 +285,29 @@ export default function DashboardPage() {
             {/* 칭찬왕 */}
             <div
               onClick={() => topReceived && openDetailModal(topReceived.id, topReceived.name, topReceived.role, 'received')}
-              className={`relative overflow-hidden bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
+              className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
                 topReceived ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-stone-900 dark:text-stone-100 text-lg font-black tracking-tight">
+                  <span className="text-amber-900 dark:text-amber-300 text-lg font-black tracking-tight">
                     칭찬왕
                   </span>
                 </div>
                 {topReceived ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 tracking-tight transition-colors">
+                    <h2 className="text-4xl md:text-5xl font-black text-amber-950 dark:text-amber-100 tracking-tight transition-colors">
                       {topReceived.name}
                     </h2>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-stone-400 dark:text-stone-600">-</span>
+                  <span className="text-3xl font-bold text-amber-400 dark:text-amber-600">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-stone-200 dark:border-stone-800 pt-4">
-                <span className="text-xs font-semibold text-stone-500 dark:text-stone-400">횟수</span>
-                <span className="text-2xl font-black text-stone-900 dark:text-stone-50">
+              <div className="mt-6 flex items-center justify-between border-t border-amber-200/60 dark:border-amber-900/30 pt-4">
+                <span className="text-xs font-semibold text-amber-700/80 dark:text-amber-400/80">횟수</span>
+                <span className="text-2xl font-black text-amber-950 dark:text-amber-100">
                   {topReceived ? `${topReceived.count}회` : '0회'}
                 </span>
               </div>
@@ -316,29 +316,29 @@ export default function DashboardPage() {
             {/* 칭마에(학생) */}
             <div
               onClick={() => topStudentGiver && openDetailModal(topStudentGiver.id, topStudentGiver.name, topStudentGiver.role, 'given')}
-              className={`relative overflow-hidden bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
+              className={`relative overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100/60 dark:from-indigo-955/20 dark:to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-350 dark:hover:border-indigo-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
                 topStudentGiver ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-stone-900 dark:text-stone-100 text-lg font-black tracking-tight">
+                  <span className="text-indigo-900 dark:text-indigo-300 text-lg font-black tracking-tight">
                     칭마에(학생)
                   </span>
                 </div>
                 {topStudentGiver ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 tracking-tight transition-colors">
+                    <h2 className="text-4xl md:text-5xl font-black text-indigo-950 dark:text-indigo-100 tracking-tight transition-colors">
                       {topStudentGiver.name}
                     </h2>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-stone-400 dark:text-stone-600">-</span>
+                  <span className="text-3xl font-bold text-indigo-400 dark:text-indigo-600">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-stone-200 dark:border-stone-800 pt-4">
-                <span className="text-xs font-semibold text-stone-500 dark:text-stone-400">횟수</span>
-                <span className="text-2xl font-black text-stone-900 dark:text-stone-50">
+              <div className="mt-6 flex items-center justify-between border-t border-indigo-200/60 dark:border-indigo-900/30 pt-4">
+                <span className="text-xs font-semibold text-indigo-700/80 dark:text-indigo-400/80">횟수</span>
+                <span className="text-2xl font-black text-indigo-950 dark:text-indigo-100">
                   {topStudentGiver ? `${topStudentGiver.count}회` : '0회'}
                 </span>
               </div>
@@ -347,29 +347,29 @@ export default function DashboardPage() {
             {/* 칭마에(교사) */}
             <div
               onClick={() => topTeacherGiver && openDetailModal(topTeacherGiver.id, topTeacherGiver.name, topTeacherGiver.role, 'given')}
-              className={`relative overflow-hidden bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 hover:border-stone-400 dark:hover:border-stone-600 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
+              className={`relative overflow-hidden bg-gradient-to-br from-emerald-50 to-emerald-100/60 dark:from-emerald-955/20 dark:to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-350 dark:hover:border-emerald-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
                 topTeacherGiver ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-stone-900 dark:text-stone-100 text-lg font-black tracking-tight">
+                  <span className="text-emerald-900 dark:text-emerald-300 text-lg font-black tracking-tight">
                     칭마에(교사)
                   </span>
                 </div>
                 {topTeacherGiver ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-stone-900 dark:text-stone-50 tracking-tight transition-colors">
+                    <h2 className="text-4xl md:text-5xl font-black text-emerald-950 dark:text-emerald-100 tracking-tight transition-colors">
                       {topTeacherGiver.name}
                     </h2>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-stone-400 dark:text-stone-600">-</span>
+                  <span className="text-3xl font-bold text-emerald-400 dark:text-emerald-600">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-stone-200 dark:border-stone-800 pt-4">
-                <span className="text-xs font-semibold text-stone-500 dark:text-stone-400">횟수</span>
-                <span className="text-2xl font-black text-stone-900 dark:text-stone-50">
+              <div className="mt-6 flex items-center justify-between border-t border-emerald-200/60 dark:border-emerald-900/30 pt-4">
+                <span className="text-xs font-semibold text-emerald-700/80 dark:text-emerald-400/80">횟수</span>
+                <span className="text-2xl font-black text-emerald-955 dark:text-emerald-100">
                   {topTeacherGiver ? `${topTeacherGiver.count}회` : '0회'}
                 </span>
               </div>

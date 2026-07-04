@@ -184,14 +184,14 @@ export default function PraiseListPage() {
     return praises.filter((p) => {
       const matchReceiver = filterReceiverId ? p.receiver_id === filterReceiverId : true;
       const matchGiver = filterGiverId ? p.giver_id === filterGiverId : true;
-      
+
       const receiverObj = users.find((u) => u.id === p.receiver_id);
       const giverObj = users.find((u) => u.id === p.giver_id);
       const keyword = searchKeyword.toLowerCase().trim();
       const matchKeyword = keyword
         ? p.message.toLowerCase().includes(keyword) ||
-          (receiverObj && receiverObj.name.toLowerCase().includes(keyword)) ||
-          (giverObj && giverObj.name.toLowerCase().includes(keyword))
+        (receiverObj && receiverObj.name.toLowerCase().includes(keyword)) ||
+        (giverObj && giverObj.name.toLowerCase().includes(keyword))
         : true;
 
       return matchReceiver && matchGiver && matchKeyword;
@@ -212,11 +212,11 @@ export default function PraiseListPage() {
   return (
     <div className="space-y-8 pb-16">
       {/* Page Header */}
-      <div className="bg-white dark:bg-stone-900/60 p-6 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs">
+      <div className="bg-gradient-to-br from-stone-100/90 to-stone-50/50 dark:from-stone-850/60 dark:to-stone-900/40 p-6 rounded-3xl border border-stone-250/60 dark:border-stone-800/60 shadow-xs">
         <h1 className="text-2xl md:text-3xl font-black text-stone-900 dark:text-stone-50 tracking-tight">
           칭찬 데이터 상세 및 관리
         </h1>
-        <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
+        <p className="text-sm text-stone-600 dark:text-stone-400 mt-1">
           지금까지 기록된 모든 칭찬 내역을 조회하고 1년간의 누적 통계를 확인할 수 있습니다.
         </p>
       </div>
@@ -225,33 +225,30 @@ export default function PraiseListPage() {
       <div className="flex border-b border-stone-200 dark:border-stone-800 p-1 bg-stone-100 dark:bg-stone-900 rounded-2xl w-full sm:w-fit gap-1">
         <button
           onClick={() => setActiveTab('list')}
-          className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeTab === 'list'
+          className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'list'
               ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
               : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
-          }`}
+            }`}
         >
           <List className="w-4 h-4" />
           칭찬 전체 리스트
         </button>
         <button
           onClick={() => setActiveTab('stats')}
-          className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeTab === 'stats'
+          className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'stats'
               ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
               : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
-          }`}
+            }`}
         >
           <BarChart3 className="w-4 h-4" />
           1년 누적 통계
         </button>
         <button
           onClick={() => setActiveTab('users')}
-          className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-            activeTab === 'users'
+          className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'users'
               ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
               : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
-          }`}
+            }`}
         >
           <Users className="w-4 h-4" />
           사용자 관리
@@ -485,15 +482,14 @@ export default function PraiseListPage() {
                           <tr key={item.id} className="hover:bg-stone-50/40 dark:hover:bg-stone-850/10 transition-colors">
                             <td className="px-6 py-4 text-center">
                               <span
-                                className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                                  rank === 1
+                                className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${rank === 1
                                     ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
                                     : rank === 2
-                                    ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
-                                    : rank === 3
-                                    ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
-                                    : 'text-stone-500 dark:text-stone-400'
-                                }`}
+                                      ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
+                                      : rank === 3
+                                        ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
+                                        : 'text-stone-500 dark:text-stone-400'
+                                  }`}
                               >
                                 {rank}
                               </span>
@@ -503,11 +499,10 @@ export default function PraiseListPage() {
                             </td>
                             <td className="px-6 py-4 text-center">
                               <span
-                                className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                                  item.role === 'student'
+                                className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold ${item.role === 'student'
                                     ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
                                     : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
-                                }`}
+                                  }`}
                               >
                                 {item.role === 'student' ? '학생' : '선생님'}
                               </span>
@@ -557,11 +552,10 @@ export default function PraiseListPage() {
                       <button
                         type="button"
                         onClick={() => setNewUserRole('student')}
-                        className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                          newUserRole === 'student'
+                        className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${newUserRole === 'student'
                             ? 'bg-indigo-55/10 border-indigo-350 text-indigo-700 dark:bg-indigo-950/20 dark:border-indigo-900 dark:text-indigo-400'
                             : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
-                        }`}
+                          }`}
                       >
                         <Users2 className="w-4 h-4" />
                         학생
@@ -569,11 +563,10 @@ export default function PraiseListPage() {
                       <button
                         type="button"
                         onClick={() => setNewUserRole('teacher')}
-                        className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                          newUserRole === 'teacher'
+                        className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${newUserRole === 'teacher'
                             ? 'bg-emerald-55/10 border-emerald-350 text-emerald-700 dark:bg-emerald-950/20 dark:border-emerald-900 dark:text-emerald-400'
                             : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
-                        }`}
+                          }`}
                       >
                         <GraduationCap className="w-4 h-4" />
                         선생님
@@ -640,11 +633,10 @@ export default function PraiseListPage() {
                             <td className="px-4 py-2.5 font-semibold text-stone-900 dark:text-stone-100">{u.name}</td>
                             <td className="px-4 py-2.5 text-center">
                               <span
-                                className={`inline-flex px-2 py-0.5 rounded-full text-2xs font-semibold ${
-                                  u.role === 'student'
+                                className={`inline-flex px-2 py-0.5 rounded-full text-2xs font-semibold ${u.role === 'student'
                                     ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
                                     : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
-                                }`}
+                                  }`}
                               >
                                 {u.role === 'student' ? '학생' : '선생님'}
                               </span>

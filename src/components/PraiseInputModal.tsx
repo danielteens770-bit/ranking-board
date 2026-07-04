@@ -55,7 +55,12 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!receiverName.trim()) {
+    const receivers = receiverName
+      .split(/[,.]+/)
+      .map((name) => name.trim())
+      .filter((name) => name.length > 0);
+
+    if (receivers.length === 0) {
       showToast('칭찬받을 사람(칭찬왕) 이름을 입력해 주세요.', 'error');
       return;
     }
@@ -63,7 +68,13 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
       showToast('칭찬하는 사람(칭마에) 이름을 입력해 주세요.', 'error');
       return;
     }
-    if (receiverName.trim().toLowerCase() === giverName.trim().toLowerCase()) {
+
+    const uniqueReceivers = Array.from(new Set(receivers));
+    const isSelfPraise = uniqueReceivers.some(
+      (name) => name.toLowerCase() === giverName.trim().toLowerCase()
+    );
+
+    if (isSelfPraise) {
       showToast('자기 자신은 칭찬할 수 없습니다.', 'error');
       return;
     }
@@ -75,29 +86,6 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
     setStatus('saving');
 
     try {
-      // Find or create receiver
-      const { data: receiverRows, error: recErr } = await supabase
-        .from('users')
-        .select('id')
-        .ilike('name', receiverName.trim())
-        .limit(1);
-
-      if (recErr) throw recErr;
-
-      let receiverId: string;
-      if (receiverRows && receiverRows.length > 0) {
-        receiverId = receiverRows[0].id;
-      } else {
-        // Auto-create receiver (default role: student)
-        const { data: newRec, error: newRecErr } = await supabase
-          .from('users')
-          .insert([{ name: receiverName.trim(), role: 'student' }])
-          .select('id')
-          .single();
-        if (newRecErr) throw newRecErr;
-        receiverId = newRec.id;
-      }
-
       // Find or create giver
       const { data: giverRows, error: givErr } = await supabase
         .from('users')
@@ -122,22 +110,49 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
         giverId = newGiv.id;
       }
 
-      if (receiverId === giverId) {
-        showToast('자기 자신은 칭찬할 수 없습니다.', 'error');
-        setStatus('input');
-        return;
-      }
+      const praiseInserts = [];
 
-      // Insert praise record
-      const { error: insertErr } = await supabase.from('praises').insert([
-        {
+      for (const name of uniqueReceivers) {
+        // Find or create receiver
+        const { data: receiverRows, error: recErr } = await supabase
+          .from('users')
+          .select('id')
+          .ilike('name', name)
+          .limit(1);
+
+        if (recErr) throw recErr;
+
+        let receiverId: string;
+        if (receiverRows && receiverRows.length > 0) {
+          receiverId = receiverRows[0].id;
+        } else {
+          // Auto-create receiver (default role: student)
+          const { data: newRec, error: newRecErr } = await supabase
+            .from('users')
+            .insert([{ name: name, role: 'student' }])
+            .select('id')
+            .single();
+          if (newRecErr) throw newRecErr;
+          receiverId = newRec.id;
+        }
+
+        if (receiverId === giverId) {
+          throw new Error('자기 자신은 칭찬할 수 없습니다.');
+        }
+
+        praiseInserts.push({
           giver_id: giverId,
           giver_role: giverRole,
           receiver_id: receiverId,
           message: message.trim(),
           month: currentMonth,
-        },
-      ]);
+        });
+      }
+
+      // Bulk insert all praises
+      const { error: insertErr } = await supabase
+        .from('praises')
+        .insert(praiseInserts);
 
       if (insertErr) throw insertErr;
 
