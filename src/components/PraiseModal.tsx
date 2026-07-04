@@ -4,8 +4,15 @@ import React, { useEffect } from 'react';
 import { X, Award, CheckCircle2 } from 'lucide-react';
 import { UserRole } from '@/types';
 
+interface PraiseTarget {
+  id: string;
+  name: string;
+  role: UserRole;
+}
+
 interface PraiseDetailItem {
   id: string;
+  targetId: string;
   name: string;
   role: UserRole;
   message: string;
@@ -15,8 +22,7 @@ interface PraiseModalProps {
   isOpen: boolean;
   onClose: () => void;
   mode: 'received' | 'given';
-  targetName: string;
-  targetRole: UserRole;
+  targets: PraiseTarget[];
   month: string;
   items: PraiseDetailItem[];
   count: number;
@@ -26,8 +32,7 @@ export const PraiseModal: React.FC<PraiseModalProps> = ({
   isOpen,
   onClose,
   mode,
-  targetName,
-  targetRole,
+  targets,
   month,
   items,
   count,
@@ -78,11 +83,17 @@ export const PraiseModal: React.FC<PraiseModalProps> = ({
             </div>
             <div>
               <h2 id="modal-title" className="text-lg md:text-xl font-bold text-stone-950 dark:text-stone-50">
-                {targetName}
-                <span className="text-xs md:text-sm font-normal text-stone-500 dark:text-stone-400 ml-1">
-                  ({targetRole === 'student' ? '학생' : '선생님'})
-                </span>
-                {mode === 'received' ? '님이 받은 칭찬' : '님이 한 칭찬'}
+                {targets.length === 1 ? (
+                  <>
+                    {targets[0].name}
+                    <span className="text-xs md:text-sm font-normal text-stone-500 dark:text-stone-400 ml-1">
+                      ({targets[0].role === 'student' ? '학생' : '선생님'})
+                    </span>
+                  </>
+                ) : (
+                  <span>{targets.map((t) => t.name).join(', ')}</span>
+                )}
+                {mode === 'received' ? ' 님이 받은 칭찬' : ' 님이 한 칭찬'}
               </h2>
               <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                 {formattedMonth} 기준
@@ -111,58 +122,71 @@ export const PraiseModal: React.FC<PraiseModalProps> = ({
           </div>
 
           {/* List Table / Cards */}
-          <div className="space-y-3">
+          <div className="space-y-5">
             <h3 className="text-xs font-semibold text-stone-400 dark:text-stone-500 uppercase tracking-wider">
               {mode === 'received' ? '보낸 사람 목록' : '받은 사람 목록'}
             </h3>
 
-            {items.length === 0 ? (
-              <div className="text-center py-8 text-stone-500 dark:text-stone-400">
-                칭찬 데이터가 없습니다.
-              </div>
-            ) : (
-              <div className="overflow-hidden border border-stone-200/50 dark:border-stone-800/50 rounded-2xl">
-                {/* Desktop Table Header */}
-                <div className="hidden md:grid grid-cols-6 bg-stone-100 dark:bg-stone-850/50 px-4 py-3 text-xs font-semibold text-stone-650 dark:text-stone-350 border-b border-stone-200/50 dark:border-stone-800/50">
-                  <div className="col-span-1">이름</div>
-                  <div className="col-span-1 text-center">구분</div>
-                  <div className="col-span-4 pl-4">칭찬 내용</div>
-                </div>
+            {targets.map((target) => {
+              const targetItems = items.filter((item) => item.targetId === target.id);
+              return (
+                <div key={target.id} className="space-y-2">
+                  {targets.length > 1 && (
+                    <h4 className="text-xs md:text-sm font-bold text-stone-800 dark:text-stone-250 bg-stone-100 dark:bg-stone-850 px-3 py-1.5 rounded-xl border border-stone-200/50 dark:border-stone-800/40">
+                      {target.name} ({target.role === 'student' ? '학생' : '선생님'})
+                    </h4>
+                  )}
 
-                {/* List Items */}
-                <div className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
-                  {items.map((item) => (
-                    <div
-                      key={item.id}
-                      className="p-4 md:px-4 md:py-3.5 bg-white dark:bg-stone-900/40 md:grid md:grid-cols-6 items-center flex flex-col md:flex-row align-start text-sm hover:bg-stone-50/40 dark:hover:bg-stone-850/20 transition-colors"
-                    >
-                      {/* Mobile Badge + Name Row */}
-                      <div className="flex md:contents w-full items-center justify-between mb-2 md:mb-0">
-                        <div className="col-span-1 font-semibold text-stone-900 dark:text-stone-100">
-                          {item.name}
-                        </div>
-                        <div className="col-span-1 text-center">
-                          <span
-                            className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
-                              item.role === 'student'
-                                ? 'bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400'
-                                : 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400'
-                            }`}
-                          >
-                            {item.role === 'student' ? '학생' : '선생님'}
-                          </span>
-                        </div>
+                  {targetItems.length === 0 ? (
+                    <div className="text-center py-8 text-stone-500 dark:text-stone-450 text-sm">
+                      칭찬 데이터가 없습니다.
+                    </div>
+                  ) : (
+                    <div className="overflow-hidden border border-stone-200/50 dark:border-stone-800/50 rounded-2xl">
+                      {/* Desktop Table Header */}
+                      <div className="hidden md:grid grid-cols-6 bg-stone-100 dark:bg-stone-850/50 px-4 py-3 text-xs font-semibold text-stone-650 dark:text-stone-350 border-b border-stone-200/50 dark:border-stone-800/50">
+                        <div className="col-span-1">이름</div>
+                        <div className="col-span-1 text-center">구분</div>
+                        <div className="col-span-4 pl-4">칭찬 내용</div>
                       </div>
 
-                      {/* Message (PC + Mobile full) */}
-                      <div className="col-span-4 pl-0 md:pl-4 text-stone-600 dark:text-stone-300 w-full text-left bg-stone-50 dark:bg-stone-950/20 md:bg-transparent md:dark:bg-transparent p-3 md:p-0 rounded-xl md:rounded-none leading-relaxed border border-stone-100 md:border-none">
-                        "{item.message}"
+                      {/* List Items */}
+                      <div className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
+                        {targetItems.map((item) => (
+                          <div
+                            key={item.id}
+                            className="p-4 md:px-4 md:py-3.5 bg-white dark:bg-stone-900/40 md:grid md:grid-cols-6 items-center flex flex-col md:flex-row align-start text-sm hover:bg-stone-50/40 dark:hover:bg-stone-850/20 transition-colors"
+                          >
+                            {/* Mobile Badge + Name Row */}
+                            <div className="flex md:contents w-full items-center justify-between mb-2 md:mb-0">
+                              <div className="col-span-1 font-semibold text-stone-900 dark:text-stone-100">
+                                {item.name}
+                              </div>
+                              <div className="col-span-1 text-center">
+                                <span
+                                  className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
+                                    item.role === 'student'
+                                      ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
+                                      : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                  }`}
+                                >
+                                  {item.role === 'student' ? '학생' : '선생님'}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Message (PC + Mobile full) */}
+                            <div className="col-span-4 pl-0 md:pl-4 text-stone-600 dark:text-stone-300 w-full text-left bg-stone-50 dark:bg-stone-955/20 md:bg-transparent md:dark:bg-transparent p-3 md:p-0 rounded-xl md:rounded-none leading-relaxed border border-stone-100 md:border-none">
+                              "{item.message}"
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  ))}
+                  )}
                 </div>
-              </div>
-            )}
+              );
+            })}
           </div>
         </div>
 

@@ -48,6 +48,13 @@ const getAvailableMonthsList = (startMonth: string): string[] => {
   return months;
 };
 
+const getFontSizeClass = (count: number) => {
+  if (count <= 1) return 'text-4xl md:text-5xl';
+  if (count === 2) return 'text-3xl md:text-4xl';
+  if (count === 3) return 'text-2xl md:text-3xl';
+  return 'text-xl md:text-2xl';
+};
+
 export default function DashboardPage() {
   const { showToast } = useToast();
   
@@ -65,14 +72,12 @@ export default function DashboardPage() {
   const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
   const [detailModalData, setDetailModalData] = useState<{
     mode: 'received' | 'given';
-    targetName: string;
-    targetRole: UserRole;
-    items: { id: string; name: string; role: UserRole; message: string }[];
+    targets: { id: string; name: string; role: UserRole }[];
+    items: { id: string; targetId: string; name: string; role: UserRole; message: string }[];
     count: number;
   }>({
     mode: 'received',
-    targetName: '',
-    targetRole: 'student',
+    targets: [],
     items: [],
     count: 0,
   });
@@ -209,40 +214,46 @@ export default function DashboardPage() {
   }, [loading, selectedMonth, praises.length, topReceivers.length]); // fire on month change or praises count change or top receivers count change
 
   // Handle open detail modal
-  const openDetailModal = (userId: string, userName: string, userRole: UserRole, mode: 'received' | 'given') => {
-    let items: { id: string; name: string; role: UserRole; message: string }[] = [];
+  const openDetailModal = (
+    targets: { id: string; name: string; role: UserRole }[],
+    mode: 'received' | 'given'
+  ) => {
+    let items: { id: string; targetId: string; name: string; role: UserRole; message: string }[] = [];
     let count = 0;
 
-    if (mode === 'received') {
-      const filtered = praises.filter((p) => p.receiver_id === userId);
-      count = filtered.length;
-      items = filtered.map((p) => {
-        const giver = users.find((u) => u.id === p.giver_id);
-        return {
-          id: p.id,
-          name: giver ? giver.name : '알 수 없음',
-          role: giver ? giver.role : 'student',
-          message: p.message,
-        };
-      });
-    } else {
-      const filtered = praises.filter((p) => p.giver_id === userId);
-      count = filtered.length;
-      items = filtered.map((p) => {
-        const receiver = users.find((u) => u.id === p.receiver_id);
-        return {
-          id: p.id,
-          name: receiver ? receiver.name : '알 수 없음',
-          role: receiver ? receiver.role : 'student',
-          message: p.message,
-        };
-      });
+    for (const target of targets) {
+      if (mode === 'received') {
+        const filtered = praises.filter((p) => p.receiver_id === target.id);
+        count += filtered.length;
+        items.push(...filtered.map((p) => {
+          const giver = users.find((u) => u.id === p.giver_id);
+          return {
+            id: p.id,
+            targetId: target.id,
+            name: giver ? giver.name : '알 수 없음',
+            role: giver ? giver.role : 'student',
+            message: p.message,
+          };
+        }));
+      } else {
+        const filtered = praises.filter((p) => p.giver_id === target.id);
+        count += filtered.length;
+        items.push(...filtered.map((p) => {
+          const receiver = users.find((u) => u.id === p.receiver_id);
+          return {
+            id: p.id,
+            targetId: target.id,
+            name: receiver ? receiver.name : '알 수 없음',
+            role: receiver ? receiver.role : 'student',
+            message: p.message,
+          };
+        }));
+      }
     }
 
     setDetailModalData({
       mode,
-      targetName: userName,
-      targetRole: userRole,
+      targets,
       items,
       count,
     });
@@ -315,8 +326,8 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 칭찬왕 */}
             <div
-              onClick={() => topReceivers.length > 0 && openDetailModal(topReceivers[0].id, topReceivers[0].name, topReceivers[0].role, 'received')}
-              className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
+              onClick={() => topReceivers.length > 0 && openDetailModal(topReceivers, 'received')}
+              className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-8 flex flex-col justify-between min-h-72 h-auto pb-6 group ${
                 topReceivers.length > 0 ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
@@ -328,13 +339,13 @@ export default function DashboardPage() {
                 </div>
                 {topReceivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-amber-950 dark:text-amber-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1">
+                    <h2 className={`font-black text-amber-950 dark:text-amber-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topReceivers.length)}`}>
                       {topReceivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
                             onClick={(e) => {
                               e.stopPropagation();
-                              openDetailModal(item.id, item.name, item.role, 'received');
+                              openDetailModal([item], 'received');
                             }}
                             className="hover:underline cursor-pointer"
                           >
@@ -361,8 +372,8 @@ export default function DashboardPage() {
 
             {/* 칭마에(학생) */}
             <div
-              onClick={() => topStudentGivers.length > 0 && openDetailModal(topStudentGivers[0].id, topStudentGivers[0].name, topStudentGivers[0].role, 'given')}
-              className={`relative overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100/60 dark:from-indigo-955/20 dark:to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-350 dark:hover:border-indigo-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
+              onClick={() => topStudentGivers.length > 0 && openDetailModal(topStudentGivers, 'given')}
+              className={`relative overflow-hidden bg-gradient-to-br from-indigo-55/20 to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-350 dark:hover:border-indigo-800 rounded-3xl p-8 flex flex-col justify-between min-h-72 h-auto pb-6 group ${
                 topStudentGivers.length > 0 ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
@@ -374,13 +385,13 @@ export default function DashboardPage() {
                 </div>
                 {topStudentGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-indigo-950 dark:text-indigo-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1">
+                    <h2 className={`font-black text-indigo-950 dark:text-indigo-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topStudentGivers.length)}`}>
                       {topStudentGivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
                             onClick={(e) => {
                               e.stopPropagation();
-                              openDetailModal(item.id, item.name, item.role, 'given');
+                              openDetailModal([item], 'given');
                             }}
                             className="hover:underline cursor-pointer"
                           >
@@ -407,8 +418,8 @@ export default function DashboardPage() {
 
             {/* 칭마에(교사) */}
             <div
-              onClick={() => topTeacherGivers.length > 0 && openDetailModal(topTeacherGivers[0].id, topTeacherGivers[0].name, topTeacherGivers[0].role, 'given')}
-              className={`relative overflow-hidden bg-gradient-to-br from-emerald-50 to-emerald-100/60 dark:from-emerald-955/20 dark:to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-350 dark:hover:border-emerald-800 rounded-3xl p-8 flex flex-col justify-between h-72 group ${
+              onClick={() => topTeacherGivers.length > 0 && openDetailModal(topTeacherGivers, 'given')}
+              className={`relative overflow-hidden bg-gradient-to-br from-emerald-55/20 to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-350 dark:hover:border-emerald-800 rounded-3xl p-8 flex flex-col justify-between min-h-72 h-auto pb-6 group ${
                 topTeacherGivers.length > 0 ? 'cursor-pointer' : ''
               } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
@@ -420,13 +431,13 @@ export default function DashboardPage() {
                 </div>
                 {topTeacherGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className="text-4xl md:text-5xl font-black text-emerald-950 dark:text-emerald-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1">
+                    <h2 className={`font-black text-emerald-955 dark:text-emerald-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topTeacherGivers.length)}`}>
                       {topTeacherGivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
                             onClick={(e) => {
                               e.stopPropagation();
-                              openDetailModal(item.id, item.name, item.role, 'given');
+                              openDetailModal([item], 'given');
                             }}
                             className="hover:underline cursor-pointer"
                           >
@@ -459,8 +470,7 @@ export default function DashboardPage() {
         isOpen={detailModalOpen}
         onClose={() => setDetailModalOpen(false)}
         mode={detailModalData.mode}
-        targetName={detailModalData.targetName}
-        targetRole={detailModalData.targetRole}
+        targets={detailModalData.targets}
         month={selectedMonth}
         items={detailModalData.items}
         count={detailModalData.count}
