@@ -57,7 +57,7 @@ const getFontSizeClass = (count: number) => {
 
 export default function DashboardPage() {
   const { showToast } = useToast();
-  
+
   const currentKSTMonth = React.useMemo(() => getCurrentKSTMonth(), []);
   const availableMonths = React.useMemo(() => getAvailableMonthsList(currentKSTMonth), [currentKSTMonth]);
 
@@ -67,7 +67,7 @@ export default function DashboardPage() {
   const [selectedMonth, setSelectedMonth] = useState<string>(currentKSTMonth);
   const [loading, setLoading] = useState<boolean>(true);
   const [rankingTab, setRankingTab] = useState<'received' | 'given'>('received');
-  
+
   // Detail Modal State
   const [detailModalOpen, setDetailModalOpen] = useState<boolean>(false);
   const [detailModalData, setDetailModalData] = useState<{
@@ -197,7 +197,7 @@ export default function DashboardPage() {
         return Math.random() * (max - min) + min;
       };
 
-      const interval: any = setInterval(function() {
+      const interval: any = setInterval(function () {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -266,28 +266,28 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-8 pb-10 max-w-5xl mx-auto">
+    <div className="space-y-6 md:space-y-8 pb-10 max-w-5xl mx-auto">
       {/* Top Section (Plain/Border-free layout) */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between py-6 border-b border-stone-200 dark:border-stone-800">
+      <div className="flex flex-col gap-4 py-4 md:py-6 border-b border-stone-200 dark:border-stone-800">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
             다니엘틴즈 칭찬왕 대시보드
           </h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
+          <p className="text-xs md:text-sm text-stone-500 dark:text-stone-400 mt-1">
             학교 구성원들이 전한 따뜻한 이야기를 실시간으로 확인해 보세요.
           </p>
         </div>
 
         {/* Dropdown & Modal trigger button */}
-        <div className="flex items-center gap-3 self-start sm:self-center">
-          <div className="relative">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="relative flex-1 sm:flex-none">
             <select
               value={selectedMonth}
               onChange={(e) => {
                 setLoading(true);
                 setSelectedMonth(e.target.value);
               }}
-              className="appearance-none pl-10 pr-10 py-3 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-750 text-stone-850 dark:text-stone-100 font-bold rounded-2xl text-sm transition-all cursor-pointer focus:outline-hidden"
+              className="w-full sm:w-auto appearance-none pl-9 pr-9 py-3 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-750 text-stone-850 dark:text-stone-100 font-bold rounded-2xl text-sm transition-all cursor-pointer focus:outline-hidden"
               aria-label="조회할 월 선택"
             >
               {availableMonths.map((m) => (
@@ -296,13 +296,13 @@ export default function DashboardPage() {
                 </option>
               ))}
             </select>
-            <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500 pointer-events-none" />
-            <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500 pointer-events-none" />
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500 pointer-events-none" />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-500 pointer-events-none" />
           </div>
 
           <button
             onClick={() => setInputModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-6 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-stone-50 dark:text-stone-900 font-extrabold rounded-2xl text-sm transition-all active:scale-98 cursor-pointer shadow-sm"
+            className="inline-flex items-center gap-1.5 px-4 sm:px-6 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-stone-50 dark:text-stone-900 font-extrabold rounded-2xl text-sm transition-all active:scale-98 cursor-pointer shadow-sm whitespace-nowrap"
             aria-label="데이터 입력"
           >
             데이터 입력
@@ -313,23 +313,22 @@ export default function DashboardPage() {
 
       {loading ? (
         /* Loading Skeleton */
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="h-64 rounded-3xl skeleton" />
-            <div className="h-64 rounded-3xl skeleton" />
-            <div className="h-64 rounded-3xl skeleton" />
+        <div className="space-y-6 md:space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="h-52 md:h-64 rounded-3xl skeleton" />
+            <div className="h-52 md:h-64 rounded-3xl skeleton" />
+            <div className="h-52 md:h-64 rounded-3xl skeleton" />
           </div>
         </div>
       ) : (
         <>
           {/* Top 3 Cards — 동일한 크기의 3-column grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {/* 칭찬왕 */}
             <div
               onClick={() => topReceivers.length > 0 && openDetailModal(topReceivers, 'received')}
-              className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-8 flex flex-col justify-between min-h-72 h-auto pb-6 group ${
-                topReceivers.length > 0 ? 'cursor-pointer' : ''
-              } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
+              className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topReceivers.length > 0 ? 'cursor-pointer' : ''
+                } active:scale-[0.99] hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -373,9 +372,8 @@ export default function DashboardPage() {
             {/* 칭마에(학생) */}
             <div
               onClick={() => topStudentGivers.length > 0 && openDetailModal(topStudentGivers, 'given')}
-              className={`relative overflow-hidden bg-gradient-to-br from-indigo-55/20 to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-350 dark:hover:border-indigo-800 rounded-3xl p-8 flex flex-col justify-between min-h-72 h-auto pb-6 group ${
-                topStudentGivers.length > 0 ? 'cursor-pointer' : ''
-              } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
+              className={`relative overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100/60 dark:from-indigo-950/30 dark:to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-300 dark:hover:border-indigo-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topStudentGivers.length > 0 ? 'cursor-pointer' : ''
+                } active:scale-[0.99] hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -419,9 +417,8 @@ export default function DashboardPage() {
             {/* 칭마에(교사) */}
             <div
               onClick={() => topTeacherGivers.length > 0 && openDetailModal(topTeacherGivers, 'given')}
-              className={`relative overflow-hidden bg-gradient-to-br from-emerald-55/20 to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-350 dark:hover:border-emerald-800 rounded-3xl p-8 flex flex-col justify-between min-h-72 h-auto pb-6 group ${
-                topTeacherGivers.length > 0 ? 'cursor-pointer' : ''
-              } hover:scale-[1.02] transition-all duration-300 shadow-sm`}
+              className={`relative overflow-hidden bg-gradient-to-br from-emerald-50 to-emerald-100/60 dark:from-emerald-950/30 dark:to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-300 dark:hover:border-emerald-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topTeacherGivers.length > 0 ? 'cursor-pointer' : ''
+                } active:scale-[0.99] hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -431,7 +428,7 @@ export default function DashboardPage() {
                 </div>
                 {topTeacherGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className={`font-black text-emerald-955 dark:text-emerald-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topTeacherGivers.length)}`}>
+                    <h2 className={`font-black text-emerald-950 dark:text-emerald-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topTeacherGivers.length)}`}>
                       {topTeacherGivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
@@ -456,7 +453,7 @@ export default function DashboardPage() {
               </div>
               <div className="mt-6 flex items-center justify-between border-t border-emerald-200/60 dark:border-emerald-900/30 pt-4">
                 <span className="text-xs font-semibold text-emerald-700/80 dark:text-emerald-400/80">횟수</span>
-                <span className="text-2xl font-black text-emerald-955 dark:text-emerald-100">
+                <span className="text-2xl font-black text-emerald-950 dark:text-emerald-100">
                   {topTeacherGivers.length > 0 ? `${topTeacherGivers[0].count}회` : '0회'}
                 </span>
               </div>

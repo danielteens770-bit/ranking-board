@@ -261,13 +261,13 @@ export default function PraiseListPage() {
   };
 
   return (
-    <div className="space-y-8 pb-16">
+    <div className="space-y-6 pb-16">
       {/* Page Header */}
-      <div className="bg-gradient-to-br from-stone-100/90 to-stone-50/50 dark:from-stone-850/60 dark:to-stone-900/40 p-6 rounded-3xl border border-stone-250/60 dark:border-stone-800/60 shadow-xs">
-        <h1 className="text-2xl md:text-3xl font-black text-stone-900 dark:text-stone-50 tracking-tight">
+      <div className="bg-gradient-to-br from-stone-100/90 to-stone-50/50 dark:from-stone-850/60 dark:to-stone-900/40 p-5 md:p-6 rounded-3xl border border-stone-250/60 dark:border-stone-800/60 shadow-xs">
+        <h1 className="text-xl md:text-3xl font-black text-stone-900 dark:text-stone-50 tracking-tight">
           칭찬 데이터 상세 및 관리
         </h1>
-        <p className="text-sm text-stone-600 dark:text-stone-400 mt-1">
+        <p className="text-xs md:text-sm text-stone-600 dark:text-stone-400 mt-1">
           지금까지 기록된 모든 칭찬 내역을 조회하고 1년간의 누적 통계를 확인할 수 있습니다.
         </p>
       </div>
@@ -277,8 +277,8 @@ export default function PraiseListPage() {
         <button
           onClick={() => setActiveTab('list')}
           className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'list'
-              ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
-              : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
+            ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
+            : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
             }`}
         >
           <List className="w-4 h-4" />
@@ -287,8 +287,8 @@ export default function PraiseListPage() {
         <button
           onClick={() => setActiveTab('stats')}
           className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'stats'
-              ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
-              : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
+            ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
+            : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
             }`}
         >
           <BarChart3 className="w-4 h-4" />
@@ -297,8 +297,8 @@ export default function PraiseListPage() {
         <button
           onClick={() => setActiveTab('users')}
           className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'users'
-              ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
-              : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
+            ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
+            : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
             }`}
         >
           <Users className="w-4 h-4" />
@@ -409,9 +409,9 @@ export default function PraiseListPage() {
                 )}
               </div>
 
-              {/* Praise List Table */}
+              {/* Praise List - Mobile Cards + Desktop Table */}
               <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs overflow-hidden">
-                <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex justify-between items-center bg-stone-50/20 dark:bg-transparent">
+                <div className="px-4 md:px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex justify-between items-center bg-stone-50/20 dark:bg-transparent">
                   <span className="text-sm font-bold text-stone-900 dark:text-stone-100">
                     조회 결과 <span className="text-amber-600 dark:text-amber-400">{filteredPraisesList.length}건</span>
                   </span>
@@ -422,46 +422,84 @@ export default function PraiseListPage() {
                     조건에 일치하는 칭찬 데이터가 없습니다.
                   </div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse text-left text-sm min-w-[700px]">
-                      <thead>
-                        <tr className="bg-stone-50 dark:bg-stone-850/50 border-b border-stone-200/50 dark:border-stone-800/60 text-xs font-bold text-stone-500">
-                          <th className="px-6 py-3.5 w-32">기준 연월</th>
-                          <th className="px-6 py-3.5 w-44">칭찬왕 (받는 사람)</th>
-                          <th className="px-6 py-3.5 w-44">칭마에 (보낸 사람)</th>
-                          <th className="px-6 py-3.5">칭찬 내용</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
-                        {filteredPraisesList.map((p) => {
-                          const receiverObj = users.find((u) => u.id === p.receiver_id);
-                          const giverObj = users.find((u) => u.id === p.giver_id);
-                          return (
-                            <tr key={p.id} className="hover:bg-stone-50/30 dark:hover:bg-stone-850/10 transition-colors">
-                              <td className="px-6 py-4 text-xs font-medium text-stone-500 dark:text-stone-400">
-                                {getFullMonthName(p.month)}
-                              </td>
-                              <td className="px-6 py-4 font-semibold text-stone-900 dark:text-stone-100">
-                                {receiverObj ? receiverObj.name : '알 수 없음'}
-                                <span className="text-2xs font-normal text-stone-400 dark:text-stone-500 ml-1">
-                                  ({receiverObj?.role === 'student' ? '학생' : '교사'})
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 text-stone-700 dark:text-stone-300">
-                                {giverObj ? giverObj.name : '알 수 없음'}
-                                <span className="text-2xs font-normal text-stone-400 dark:text-stone-500 ml-1">
-                                  ({giverObj?.role === 'student' ? '학생' : '교사'})
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
-                                "{p.message}"
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
+                  <>
+                    {/* Desktop Table */}
+                    <div className="hidden md:block overflow-x-auto">
+                      <table className="w-full border-collapse text-left text-sm min-w-[700px]">
+                        <thead>
+                          <tr className="bg-stone-50 dark:bg-stone-850/50 border-b border-stone-200/50 dark:border-stone-800/60 text-xs font-bold text-stone-500">
+                            <th className="px-6 py-3.5 w-32">기준 연월</th>
+                            <th className="px-6 py-3.5 w-44">칭찬왕 (받는 사람)</th>
+                            <th className="px-6 py-3.5 w-44">칭마에 (보낸 사람)</th>
+                            <th className="px-6 py-3.5">칭찬 내용</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
+                          {filteredPraisesList.map((p) => {
+                            const receiverObj = users.find((u) => u.id === p.receiver_id);
+                            const giverObj = users.find((u) => u.id === p.giver_id);
+                            return (
+                              <tr key={p.id} className="hover:bg-stone-50/30 dark:hover:bg-stone-850/10 transition-colors">
+                                <td className="px-6 py-4 text-xs font-medium text-stone-500 dark:text-stone-400">
+                                  {getFullMonthName(p.month)}
+                                </td>
+                                <td className="px-6 py-4 font-semibold text-stone-900 dark:text-stone-100">
+                                  {receiverObj ? receiverObj.name : '알 수 없음'}
+                                  <span className="text-2xs font-normal text-stone-400 dark:text-stone-500 ml-1">
+                                    ({receiverObj?.role === 'student' ? '학생' : '교사'})
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 text-stone-700 dark:text-stone-300">
+                                  {giverObj ? giverObj.name : '알 수 없음'}
+                                  <span className="text-2xs font-normal text-stone-400 dark:text-stone-500 ml-1">
+                                    ({giverObj?.role === 'student' ? '학생' : '교사'})
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
+                                  "{p.message}"
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Mobile Card List */}
+                    <div className="md:hidden divide-y divide-stone-100 dark:divide-stone-800/50">
+                      {filteredPraisesList.map((p) => {
+                        const receiverObj = users.find((u) => u.id === p.receiver_id);
+                        const giverObj = users.find((u) => u.id === p.giver_id);
+                        return (
+                          <div key={p.id} className="p-4 space-y-2.5">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-medium text-stone-400 dark:text-stone-500">{getFullMonthName(p.month)}</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm">
+                              <div className="flex-1">
+                                <span className="text-2xs font-bold text-stone-400 uppercase tracking-wide">칭찬왕</span>
+                                <p className="font-semibold text-stone-900 dark:text-stone-100">
+                                  {receiverObj ? receiverObj.name : '알 수 없음'}
+                                  <span className="text-2xs font-normal text-stone-400 ml-1">({receiverObj?.role === 'student' ? '학생' : '교사'})</span>
+                                </p>
+                              </div>
+                              <div className="text-stone-300 dark:text-stone-600">→</div>
+                              <div className="flex-1 text-right">
+                                <span className="text-2xs font-bold text-stone-400 uppercase tracking-wide">칭마에</span>
+                                <p className="font-medium text-stone-700 dark:text-stone-300">
+                                  {giverObj ? giverObj.name : '알 수 없음'}
+                                  <span className="text-2xs font-normal text-stone-400 ml-1">({giverObj?.role === 'student' ? '학생' : '교사'})</span>
+                                </p>
+                              </div>
+                            </div>
+                            <div className="bg-stone-50 dark:bg-stone-850/60 rounded-xl p-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed border border-stone-100 dark:border-stone-800/40">
+                              "{p.message}"
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -524,11 +562,13 @@ export default function PraiseListPage() {
 
               {/* 1-Year Cumulative Stats Leaderboard */}
               <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs overflow-hidden">
-                <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex items-center gap-2">
+                <div className="px-4 md:px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex items-center gap-2">
                   <Trophy className="w-4 h-4 text-amber-500" />
                   <span className="text-sm font-bold text-stone-900 dark:text-stone-100">1년 누적 종합 랭킹 ({statsDateRangeLabel})</span>
                 </div>
-                <div className="overflow-x-auto">
+
+                {/* Desktop Table */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left border-collapse text-sm">
                     <thead>
                       <tr className="bg-stone-100/50 dark:bg-stone-850/30 border-b border-stone-200/60 dark:border-stone-800/60">
@@ -553,12 +593,12 @@ export default function PraiseListPage() {
                             <td className="px-6 py-4 text-center">
                               <span
                                 className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${rank === 1
-                                    ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
-                                    : rank === 2
-                                      ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
-                                      : rank === 3
-                                        ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
-                                        : 'text-stone-500 dark:text-stone-400'
+                                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
+                                  : rank === 2
+                                    ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
+                                    : rank === 3
+                                      ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
+                                      : 'text-stone-500 dark:text-stone-400'
                                   }`}
                               >
                                 {rank}
@@ -570,8 +610,8 @@ export default function PraiseListPage() {
                             <td className="px-6 py-4 text-center">
                               <span
                                 className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold ${item.role === 'student'
-                                    ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                    : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                  ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
+                                  : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
                                   }`}
                               >
                                 {item.role === 'student' ? '학생' : '선생님'}
@@ -599,15 +639,63 @@ export default function PraiseListPage() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Mobile Card List */}
+                <div className="md:hidden divide-y divide-stone-100 dark:divide-stone-800/50">
+                  {stats1Year.leaderboard.length === 0 ? (
+                    <div className="py-12 text-center text-stone-400 text-sm">1년간의 칭찬 집계 데이터가 없습니다.</div>
+                  ) : (
+                    stats1Year.leaderboard.map((item, idx, arr) => {
+                      let rank = idx + 1;
+                      if (idx > 0 && arr[idx - 1].received === item.received && arr[idx - 1].given === item.given) {
+                        let firstMatch = arr.findIndex(x => x.received === item.received && x.given === item.given);
+                        rank = firstMatch + 1;
+                      }
+                      return (
+                        <div key={item.id} className="px-4 py-3.5 flex items-center gap-3">
+                          <span
+                            className={`flex-shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold ${rank === 1
+                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
+                              : rank === 2
+                                ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
+                                : rank === 3
+                                  ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
+                                  : 'text-stone-500 dark:text-stone-400 w-7 h-7 flex items-center justify-center'
+                              }`}
+                          >
+                            {rank}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-stone-900 dark:text-stone-100 text-sm">{item.name}</span>
+                              <span className={`inline-flex px-1.5 py-0.5 rounded-full text-2xs font-semibold ${item.role === 'student'
+                                ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
+                                : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                }`}>
+                                {item.role === 'student' ? '학생' : '선생님'}
+                              </span>
+                            </div>
+                            <div className="flex gap-3 mt-0.5">
+                              <span className="text-2xs text-stone-400">받은: {item.received}회</span>
+                              <span className="text-2xs text-stone-400">비도: {item.given}회</span>
+                            </div>
+                          </div>
+                          <span className="font-black text-stone-900 dark:text-stone-50 text-sm">{item.total}점</span>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
               </div>
             </div>
           )}
 
+
           {/* TAB 3: USER MANAGEMENT */}
           {activeTab === 'users' && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
               {/* Add User form */}
-              <div className="lg:col-span-5 bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 p-6 shadow-xs h-fit">
+              <div className="lg:col-span-5 bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 p-5 md:p-6 shadow-xs h-fit">
                 <div className="flex items-center gap-2 mb-4 border-b border-stone-200/50 dark:border-stone-850/40 pb-3">
                   <div className="p-1.5 bg-amber-500/10 text-amber-600 rounded-lg">
                     <UserPlus className="w-4 h-4" />
@@ -623,8 +711,8 @@ export default function PraiseListPage() {
                         type="button"
                         onClick={() => setNewUserRole('student')}
                         className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${newUserRole === 'student'
-                            ? 'bg-indigo-55/10 border-indigo-350 text-indigo-700 dark:bg-indigo-950/20 dark:border-indigo-900 dark:text-indigo-400'
-                            : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
+                          ? 'bg-indigo-55/10 border-indigo-350 text-indigo-700 dark:bg-indigo-950/20 dark:border-indigo-900 dark:text-indigo-400'
+                          : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
                           }`}
                       >
                         <Users2 className="w-4 h-4" />
@@ -634,8 +722,8 @@ export default function PraiseListPage() {
                         type="button"
                         onClick={() => setNewUserRole('teacher')}
                         className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${newUserRole === 'teacher'
-                            ? 'bg-emerald-55/10 border-emerald-350 text-emerald-700 dark:bg-emerald-950/20 dark:border-emerald-900 dark:text-emerald-400'
-                            : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
+                          ? 'bg-emerald-55/10 border-emerald-350 text-emerald-700 dark:bg-emerald-950/20 dark:border-emerald-900 dark:text-emerald-400'
+                          : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
                           }`}
                       >
                         <GraduationCap className="w-4 h-4" />
@@ -704,8 +792,8 @@ export default function PraiseListPage() {
                             <td className="px-4 py-2.5 text-center">
                               <span
                                 className={`inline-flex px-2 py-0.5 rounded-full text-2xs font-semibold ${u.role === 'student'
-                                    ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                    : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                  ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
+                                  : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
                                   }`}
                               >
                                 {u.role === 'student' ? '학생' : '선생님'}

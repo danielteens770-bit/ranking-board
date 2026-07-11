@@ -29,22 +29,20 @@ export const Header: React.FC = () => {
         <nav className="hidden md:flex items-center gap-2">
           <Link
             href="/dashboard"
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
-              isActive('/dashboard')
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${isActive('/dashboard')
                 ? 'bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900'
                 : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800'
-            }`}
+              }`}
           >
             <LayoutDashboard className="w-4 h-4" />
             대시보드
           </Link>
           <Link
             href="/list"
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
-              isActive('/list')
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${isActive('/list')
                 ? 'bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900'
                 : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800'
-            }`}
+              }`}
           >
             <Database className="w-4 h-4" />
             칭찬 data

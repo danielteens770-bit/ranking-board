@@ -57,9 +57,9 @@ export const PraiseModal: React.FC<PraiseModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs p-0 md:items-center md:p-4 transition-opacity duration-300">
       {/* Background Dim - Close on click */}
-      <div 
-        className="absolute inset-0 cursor-pointer" 
-        onClick={onClose} 
+      <div
+        className="absolute inset-0 cursor-pointer"
+        onClick={onClose}
         aria-hidden="true"
       />
 
@@ -164,11 +164,10 @@ export const PraiseModal: React.FC<PraiseModalProps> = ({
                               </div>
                               <div className="col-span-1 text-center">
                                 <span
-                                  className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
-                                    item.role === 'student'
-                                      ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                      : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
-                                  }`}
+                                  className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${item.role === 'student'
+                                    ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
+                                    : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                    }`}
                                 >
                                   {item.role === 'student' ? '학생' : '선생님'}
                                 </span>
