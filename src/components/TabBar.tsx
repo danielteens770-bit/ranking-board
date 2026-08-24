@@ -13,13 +13,13 @@ export const TabBar: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-45 bg-white/95 dark:bg-stone-900/95 border-t border-stone-200/60 dark:border-stone-800/60 px-6 py-3 flex items-center justify-around md:hidden backdrop-blur-md transition-colors pb-safe">
+    <div className="fixed bottom-0 left-0 right-0 z-45 bg-white/95 border-t border-stone-200/60 px-6 py-3 flex items-center justify-around md:hidden backdrop-blur-md transition-colors pb-safe">
       <Link
         href="/dashboard"
         className={`flex flex-col items-center gap-1 flex-1 text-center py-1 transition-all ${
           isActive('/dashboard')
-            ? 'text-stone-900 dark:text-stone-100 font-black scale-105'
-            : 'text-stone-500 dark:text-stone-400 font-medium'
+            ? 'text-stone-900 font-black scale-105'
+            : 'text-stone-500 font-medium'
         }`}
         aria-label="대시보드 페이지로 이동"
       >
@@ -30,8 +30,8 @@ export const TabBar: React.FC = () => {
         href="/list"
         className={`flex flex-col items-center gap-1 flex-1 text-center py-1 transition-all ${
           isActive('/list')
-            ? 'text-stone-900 dark:text-stone-100 font-black scale-105'
-            : 'text-stone-500 dark:text-stone-400 font-medium'
+            ? 'text-stone-900 font-black scale-105'
+            : 'text-stone-500 font-medium'
         }`}
         aria-label="칭찬 data 페이지로 이동"
       >

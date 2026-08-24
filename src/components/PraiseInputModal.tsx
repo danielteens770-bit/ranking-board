@@ -185,25 +185,25 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
       />
 
       <div
-        className="relative w-full max-h-[90vh] md:max-h-[85vh] bg-stone-50 dark:bg-stone-900 rounded-t-[2.5rem] md:rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-slide-up md:animate-fade-in md:max-w-xl border border-stone-200/50 dark:border-stone-800/50 transform transition-all duration-300"
+        className="relative w-full max-h-[90vh] md:max-h-[85vh] bg-stone-50 rounded-t-[2.5rem] md:rounded-[2rem] shadow-2xl flex flex-col overflow-hidden animate-slide-up md:animate-fade-in md:max-w-xl border border-stone-200/50 transform transition-all duration-300"
         role="dialog"
         aria-modal="true"
       >
         {/* Mobile Drag Handle */}
         <div className="flex justify-center py-3 md:hidden">
-          <div className="w-12 h-1.5 bg-stone-300 dark:bg-stone-700 rounded-full" />
+          <div className="w-12 h-1.5 bg-stone-300 rounded-full" />
         </div>
 
         {/* Header (hidden in success/error screens) */}
         {status !== 'success' && status !== 'error' && (
-          <div className="px-6 pb-4 pt-2 md:py-5 border-b border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between">
+          <div className="px-6 pb-4 pt-2 md:py-5 border-b border-stone-200/60 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-xl">
+              <div className="p-2 bg-stone-100 text-stone-900 rounded-xl">
                 <Award className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-lg font-extrabold text-stone-950 dark:text-stone-50">칭찬 등록하기</h2>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+                <h2 className="text-lg font-extrabold text-stone-950">칭찬 등록하기</h2>
+                <p className="text-xs text-stone-500 mt-0.5">
                   {formattedMonth} 기준 칭찬 데이터를 입력합니다.
                 </p>
               </div>
@@ -211,7 +211,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
             <button
               onClick={onClose}
               disabled={status === 'saving'}
-              className="p-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-850 text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 transition-colors disabled:opacity-30"
+              className="p-2 rounded-full hover:bg-stone-200 text-stone-500 hover:text-stone-800 transition-colors disabled:opacity-30"
               aria-label="닫기"
             >
               <X className="w-5 h-5" />
@@ -226,7 +226,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
 
               {/* Field 1: 칭찬 받는 사람 */}
               <div className="space-y-2">
-                <label htmlFor="receiver-name" className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
+                <label htmlFor="receiver-name" className="text-xs font-bold text-stone-700 block">
                   칭찬 받는 사람 <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -236,13 +236,13 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                   onChange={(e) => setReceiverName(e.target.value)}
                   placeholder="예: 홍길동"
                   autoComplete="off"
-                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 dark:text-stone-100 placeholder-stone-350 dark:placeholder-stone-600"
+                  className="w-full px-4 py-3 bg-white border border-stone-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 placeholder-stone-400"
                 />
               </div>
 
               {/* Field 2: 보낸 사람 구분 */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
+                <label className="text-xs font-bold text-stone-700 block">
                   보낸 사람 구분 <span className="text-rose-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -251,8 +251,8 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                     onClick={() => setGiverRole('student')}
                     className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all ${
                       giverRole === 'student'
-                        ? 'bg-stone-950 border-stone-950 text-white dark:bg-stone-100 dark:border-stone-100 dark:text-stone-950'
-                        : 'bg-white dark:bg-stone-850 border-stone-200 dark:border-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/40'
+                        ? 'bg-stone-950 border-stone-950 text-white'
+                        : 'bg-white border-stone-200 text-stone-500 hover:bg-stone-50'
                     }`}
                   >
                     학생
@@ -262,8 +262,8 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                     onClick={() => setGiverRole('teacher')}
                     className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all ${
                       giverRole === 'teacher'
-                        ? 'bg-stone-950 border-stone-950 text-white dark:bg-stone-100 dark:border-stone-100 dark:text-stone-950'
-                        : 'bg-white dark:bg-stone-850 border-stone-200 dark:border-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/40'
+                        ? 'bg-stone-950 border-stone-950 text-white'
+                        : 'bg-white border-stone-200 text-stone-500 hover:bg-stone-50'
                     }`}
                   >
                     선생님
@@ -273,7 +273,7 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
 
               {/* Field 3: 칭찬 보낸 사람 */}
               <div className="space-y-2">
-                <label htmlFor="giver-name" className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
+                <label htmlFor="giver-name" className="text-xs font-bold text-stone-700 block">
                   칭찬 보낸 사람 <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -283,13 +283,13 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                   onChange={(e) => setGiverName(e.target.value)}
                   placeholder="예: 김철수"
                   autoComplete="off"
-                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 dark:text-stone-100 placeholder-stone-350 dark:placeholder-stone-600"
+                  className="w-full px-4 py-3 bg-white border border-stone-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 placeholder-stone-400"
                 />
               </div>
 
               {/* Field 4: 칭찬 내용 */}
               <div className="space-y-2">
-                <label htmlFor="praise-message" className="text-xs font-bold text-stone-700 dark:text-stone-300 block">
+                <label htmlFor="praise-message" className="text-xs font-bold text-stone-700 block">
                   칭찬 내용 <span className="text-rose-500">*</span>
                 </label>
                 <textarea
@@ -298,22 +298,22 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="따뜻한 칭찬의 한 마디를 작성해 주세요."
                   rows={4}
-                  className="w-full px-4 py-3 bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 dark:text-stone-100 resize-none leading-relaxed"
+                  className="w-full px-4 py-3 bg-white border border-stone-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-stone-500/20 transition-all text-stone-900 resize-none leading-relaxed"
                 />
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 pt-3 border-t border-stone-200/60 dark:border-stone-800/60">
+              <div className="flex gap-3 pt-3 border-t border-stone-200/60">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-750 text-stone-700 dark:text-stone-200 font-bold rounded-2xl text-sm transition-colors"
+                  className="flex-1 py-3 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-2xl text-sm transition-colors"
                 >
                   취소
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 font-bold rounded-2xl text-sm transition-all flex items-center justify-center gap-1.5 active:scale-98"
+                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-2xl text-sm transition-all flex items-center justify-center gap-1.5 active:scale-98"
                 >
                   <Save className="w-4 h-4" />
                   저장하기
@@ -325,31 +325,31 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
           {status === 'saving' && (
             <div className="flex flex-col items-center justify-center py-16 space-y-4">
               <Loader2 className="w-10 h-10 text-stone-500 animate-spin" />
-              <p className="text-sm font-bold text-stone-700 dark:text-stone-300">칭찬 내역을 저장하는 중...</p>
+              <p className="text-sm font-bold text-stone-700">칭찬 내역을 저장하는 중...</p>
             </div>
           )}
 
           {status === 'success' && (
             <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
-              <div className="w-16 h-16 bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-full flex items-center justify-center mb-6 border border-stone-200 dark:border-stone-700">
-                <CheckCircle2 className="w-8 h-8 fill-current text-stone-900 dark:text-stone-100" />
+              <div className="w-16 h-16 bg-stone-100 text-stone-900 rounded-full flex items-center justify-center mb-6 border border-stone-200">
+                <CheckCircle2 className="w-8 h-8 fill-current text-stone-900" />
               </div>
-              <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 mb-2">저장 성공</h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 max-w-xs mb-8">
+              <h3 className="text-xl font-black text-stone-900 mb-2">저장 성공</h3>
+              <p className="text-sm text-stone-500 max-w-xs mb-8">
                 칭찬 데이터가 정상적으로 저장되었습니다. 따뜻한 말씀 감사합니다!
               </p>
               <div className="w-full flex flex-col sm:flex-row gap-3">
                 <button
                   type="button"
                   onClick={handleResetForNext}
-                  className="flex-1 py-3 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-750 text-stone-800 dark:text-stone-200 font-bold rounded-2xl text-sm transition-colors"
+                  className="flex-1 py-3 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold rounded-2xl text-sm transition-colors"
                 >
                   계속 작성하기
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-white dark:text-stone-900 font-bold rounded-2xl text-sm transition-all"
+                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-2xl text-sm transition-all"
                 >
                   완료 및 닫기
                 </button>
@@ -359,28 +359,28 @@ export const PraiseInputModal: React.FC<PraiseInputModalProps> = ({
 
           {status === 'error' && (
             <div className="flex flex-col items-center justify-center py-10 text-center animate-fade-in">
-              <div className="w-16 h-16 bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 rounded-full flex items-center justify-center mb-6 border border-stone-200 dark:border-stone-700">
-                <AlertCircle className="w-8 h-8 text-stone-900 dark:text-stone-100" />
+              <div className="w-16 h-16 bg-stone-100 text-stone-900 rounded-full flex items-center justify-center mb-6 border border-stone-200">
+                <AlertCircle className="w-8 h-8 text-stone-900" />
               </div>
-              <h3 className="text-xl font-black text-stone-900 dark:text-stone-50 mb-2">저장 실패</h3>
-              <p className="text-sm text-stone-600 dark:text-stone-400 max-w-xs mb-2 font-medium">
+              <h3 className="text-xl font-black text-stone-900 mb-2">저장 실패</h3>
+              <p className="text-sm text-stone-600 max-w-xs mb-2 font-medium">
                 다시 작성해주세요
               </p>
-              <p className="text-xs text-stone-400 dark:text-stone-500 max-w-xs mb-8">
+              <p className="text-xs text-stone-400 max-w-xs mb-8">
                 사유: {errorMessage}
               </p>
               <div className="w-full flex gap-3">
                 <button
                   type="button"
                   onClick={() => setStatus('input')}
-                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-850 dark:bg-stone-50 dark:hover:bg-stone-200 text-white dark:text-stone-900 font-bold rounded-2xl text-sm transition-all"
+                  className="flex-1 py-3 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-2xl text-sm transition-all"
                 >
                   다시 시도하기
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3 bg-stone-100 dark:bg-stone-850 text-stone-750 dark:text-stone-300 font-bold rounded-2xl text-sm transition-colors"
+                  className="flex-1 py-3 bg-stone-100 text-stone-700 font-bold rounded-2xl text-sm transition-colors"
                 >
                   닫기
                 </button>

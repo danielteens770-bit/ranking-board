@@ -263,22 +263,22 @@ export default function PraiseListPage() {
   return (
     <div className="space-y-6 pb-16">
       {/* Page Header */}
-      <div className="bg-gradient-to-br from-stone-100/90 to-stone-50/50 dark:from-stone-850/60 dark:to-stone-900/40 p-5 md:p-6 rounded-3xl border border-stone-250/60 dark:border-stone-800/60 shadow-xs">
-        <h1 className="text-xl md:text-3xl font-black text-stone-900 dark:text-stone-50 tracking-tight">
+      <div className="bg-gradient-to-br from-stone-100/90 to-stone-50/50 p-5 md:p-6 rounded-3xl border border-stone-200/60 shadow-xs">
+        <h1 className="text-xl md:text-3xl font-black text-stone-900 tracking-tight">
           칭찬 데이터 상세 및 관리
         </h1>
-        <p className="text-xs md:text-sm text-stone-600 dark:text-stone-400 mt-1">
+        <p className="text-xs md:text-sm text-stone-600 mt-1">
           지금까지 기록된 모든 칭찬 내역을 조회하고 1년간의 누적 통계를 확인할 수 있습니다.
         </p>
       </div>
 
       {/* Tabs Menu */}
-      <div className="flex border-b border-stone-200 dark:border-stone-800 p-1 bg-stone-100 dark:bg-stone-900 rounded-2xl w-full sm:w-fit gap-1">
+      <div className="flex border-b border-stone-200 p-1 bg-stone-100 rounded-2xl w-full sm:w-fit gap-1">
         <button
           onClick={() => setActiveTab('list')}
           className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'list'
-            ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
-            : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
+            ? 'bg-white text-amber-600 shadow-sm'
+            : 'text-stone-600 hover:bg-stone-200/50'
             }`}
         >
           <List className="w-4 h-4" />
@@ -287,8 +287,8 @@ export default function PraiseListPage() {
         <button
           onClick={() => setActiveTab('stats')}
           className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'stats'
-            ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
-            : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
+            ? 'bg-white text-amber-600 shadow-sm'
+            : 'text-stone-600 hover:bg-stone-200/50'
             }`}
         >
           <BarChart3 className="w-4 h-4" />
@@ -297,8 +297,8 @@ export default function PraiseListPage() {
         <button
           onClick={() => setActiveTab('users')}
           className={`flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === 'users'
-            ? 'bg-white dark:bg-stone-800 text-amber-600 dark:text-amber-400 shadow-sm'
-            : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/40'
+            ? 'bg-white text-amber-600 shadow-sm'
+            : 'text-stone-600 hover:bg-stone-200/50'
             }`}
         >
           <Users className="w-4 h-4" />
@@ -309,7 +309,7 @@ export default function PraiseListPage() {
       {loading ? (
         <div className="py-20 flex flex-col items-center justify-center space-y-4">
           <span className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-stone-500 dark:text-stone-400">데이터를 불러오는 중입니다...</p>
+          <p className="text-sm text-stone-500">데이터를 불러오는 중입니다...</p>
         </div>
       ) : (
         <>
@@ -317,19 +317,19 @@ export default function PraiseListPage() {
           {activeTab === 'list' && (
             <div className="space-y-6">
               {/* Filters Block */}
-              <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 p-6 shadow-xs space-y-4">
-                <div className="flex items-center gap-2 text-stone-900 dark:text-stone-100 font-bold border-b border-stone-100 dark:border-stone-800/60 pb-3">
+              <div className="bg-white rounded-3xl border border-stone-200/20 p-6 shadow-xs space-y-4">
+                <div className="flex items-center gap-2 text-stone-900 font-bold border-b border-stone-100 pb-3">
                   <Filter className="w-4 h-4 text-amber-500" />
                   검색 필터
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Filter Month */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-stone-500 dark:text-stone-400">기간 선택</label>
+                    <label className="text-xs font-bold text-stone-500">기간 선택</label>
                     <select
                       value={filterMonth}
                       onChange={(e) => setFilterMonth(e.target.value)}
-                      className="w-full px-3 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100"
+                      className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900"
                     >
                       <option value="">-- 전체 --</option>
                       <option value="1year">최근 1년</option>
@@ -343,11 +343,11 @@ export default function PraiseListPage() {
 
                   {/* Filter Receiver (칭찬왕) */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-stone-500 dark:text-stone-400">칭찬왕 (받은 사람)</label>
+                    <label className="text-xs font-bold text-stone-500">칭찬왕 (받은 사람)</label>
                     <select
                       value={filterReceiverId}
                       onChange={(e) => setFilterReceiverId(e.target.value)}
-                      className="w-full px-3 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100"
+                      className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900"
                     >
                       <option value="">-- 전체 --</option>
                       {users.map((u) => (
@@ -360,11 +360,11 @@ export default function PraiseListPage() {
 
                   {/* Filter Giver (칭마에) */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-stone-500 dark:text-stone-400">칭마에 (보낸 사람)</label>
+                    <label className="text-xs font-bold text-stone-500">칭마에 (보낸 사람)</label>
                     <select
                       value={filterGiverId}
                       onChange={(e) => setFilterGiverId(e.target.value)}
-                      className="w-full px-3 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100"
+                      className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900"
                     >
                       <option value="">-- 전체 --</option>
                       {users.map((u) => (
@@ -377,14 +377,14 @@ export default function PraiseListPage() {
 
                   {/* Search Text */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-stone-500 dark:text-stone-400">내용 검색</label>
+                    <label className="text-xs font-bold text-stone-500">내용 검색</label>
                     <div className="relative">
                       <input
                         type="text"
                         value={searchKeyword}
                         onChange={(e) => setSearchKeyword(e.target.value)}
                         placeholder="이름이나 칭찬 내용 입력"
-                        className="w-full pl-9 pr-3 py-2 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100"
+                        className="w-full pl-9 pr-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/20 text-stone-900"
                       />
                       <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
                     </div>
@@ -410,15 +410,15 @@ export default function PraiseListPage() {
               </div>
 
               {/* Praise List - Mobile Cards + Desktop Table */}
-              <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs overflow-hidden">
-                <div className="px-4 md:px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex justify-between items-center bg-stone-50/20 dark:bg-transparent">
-                  <span className="text-sm font-bold text-stone-900 dark:text-stone-100">
-                    조회 결과 <span className="text-amber-600 dark:text-amber-400">{filteredPraisesList.length}건</span>
+              <div className="bg-white rounded-3xl border border-stone-200/20 shadow-xs overflow-hidden">
+                <div className="px-4 md:px-6 py-4 border-b border-stone-100 flex justify-between items-center bg-stone-50/20">
+                  <span className="text-sm font-bold text-stone-900">
+                    조회 결과 <span className="text-amber-600">{filteredPraisesList.length}건</span>
                   </span>
                 </div>
 
                 {filteredPraisesList.length === 0 ? (
-                  <div className="py-16 text-center text-stone-400 dark:text-stone-500 text-sm">
+                  <div className="py-16 text-center text-stone-400 text-sm">
                     조건에 일치하는 칭찬 데이터가 없습니다.
                   </div>
                 ) : (
@@ -427,35 +427,35 @@ export default function PraiseListPage() {
                     <div className="hidden md:block overflow-x-auto">
                       <table className="w-full border-collapse text-left text-sm min-w-[700px]">
                         <thead>
-                          <tr className="bg-stone-50 dark:bg-stone-850/50 border-b border-stone-200/50 dark:border-stone-800/60 text-xs font-bold text-stone-500">
+                          <tr className="bg-stone-50 border-b border-stone-200/50 text-xs font-bold text-stone-500">
                             <th className="px-6 py-3.5 w-32">기준 연월</th>
                             <th className="px-6 py-3.5 w-44">칭찬왕 (받는 사람)</th>
                             <th className="px-6 py-3.5 w-44">칭마에 (보낸 사람)</th>
                             <th className="px-6 py-3.5">칭찬 내용</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
+                        <tbody className="divide-y divide-stone-200/50">
                           {filteredPraisesList.map((p) => {
                             const receiverObj = users.find((u) => u.id === p.receiver_id);
                             const giverObj = users.find((u) => u.id === p.giver_id);
                             return (
-                              <tr key={p.id} className="hover:bg-stone-50/30 dark:hover:bg-stone-850/10 transition-colors">
-                                <td className="px-6 py-4 text-xs font-medium text-stone-500 dark:text-stone-400">
+                              <tr key={p.id} className="hover:bg-stone-50/30 transition-colors">
+                                <td className="px-6 py-4 text-xs font-medium text-stone-500">
                                   {getFullMonthName(p.month)}
                                 </td>
-                                <td className="px-6 py-4 font-semibold text-stone-900 dark:text-stone-100">
+                                <td className="px-6 py-4 font-semibold text-stone-900">
                                   {receiverObj ? receiverObj.name : '알 수 없음'}
-                                  <span className="text-2xs font-normal text-stone-400 dark:text-stone-500 ml-1">
+                                  <span className="text-2xs font-normal text-stone-400 ml-1">
                                     ({receiverObj?.role === 'student' ? '학생' : '교사'})
                                   </span>
                                 </td>
-                                <td className="px-6 py-4 text-stone-700 dark:text-stone-300">
+                                <td className="px-6 py-4 text-stone-700">
                                   {giverObj ? giverObj.name : '알 수 없음'}
-                                  <span className="text-2xs font-normal text-stone-400 dark:text-stone-500 ml-1">
+                                  <span className="text-2xs font-normal text-stone-400 ml-1">
                                     ({giverObj?.role === 'student' ? '학생' : '교사'})
                                   </span>
                                 </td>
-                                <td className="px-6 py-4 text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
+                                <td className="px-6 py-4 text-stone-600 leading-relaxed font-normal">
                                   "{p.message}"
                                 </td>
                               </tr>
@@ -466,33 +466,33 @@ export default function PraiseListPage() {
                     </div>
 
                     {/* Mobile Card List */}
-                    <div className="md:hidden divide-y divide-stone-100 dark:divide-stone-800/50">
+                    <div className="md:hidden divide-y divide-stone-100">
                       {filteredPraisesList.map((p) => {
                         const receiverObj = users.find((u) => u.id === p.receiver_id);
                         const giverObj = users.find((u) => u.id === p.giver_id);
                         return (
                           <div key={p.id} className="p-4 space-y-2.5">
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-medium text-stone-400 dark:text-stone-500">{getFullMonthName(p.month)}</span>
+                              <span className="text-xs font-medium text-stone-400">{getFullMonthName(p.month)}</span>
                             </div>
                             <div className="flex items-center gap-3 text-sm">
                               <div className="flex-1">
                                 <span className="text-2xs font-bold text-stone-400 uppercase tracking-wide">칭찬왕</span>
-                                <p className="font-semibold text-stone-900 dark:text-stone-100">
+                                <p className="font-semibold text-stone-900">
                                   {receiverObj ? receiverObj.name : '알 수 없음'}
                                   <span className="text-2xs font-normal text-stone-400 ml-1">({receiverObj?.role === 'student' ? '학생' : '교사'})</span>
                                 </p>
                               </div>
-                              <div className="text-stone-300 dark:text-stone-600">→</div>
+                              <div className="text-stone-300">→</div>
                               <div className="flex-1 text-right">
                                 <span className="text-2xs font-bold text-stone-400 uppercase tracking-wide">칭마에</span>
-                                <p className="font-medium text-stone-700 dark:text-stone-300">
+                                <p className="font-medium text-stone-700">
                                   {giverObj ? giverObj.name : '알 수 없음'}
                                   <span className="text-2xs font-normal text-stone-400 ml-1">({giverObj?.role === 'student' ? '학생' : '교사'})</span>
                                 </p>
                               </div>
                             </div>
-                            <div className="bg-stone-50 dark:bg-stone-850/60 rounded-xl p-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed border border-stone-100 dark:border-stone-800/40">
+                            <div className="bg-stone-50 rounded-xl p-3 text-sm text-stone-600 leading-relaxed border border-stone-100">
                               "{p.message}"
                             </div>
                           </div>
@@ -511,10 +511,10 @@ export default function PraiseListPage() {
               {/* Summary Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Cumulative praises */}
-                <div className="bg-white dark:bg-stone-900/60 p-6 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs flex items-center justify-between">
+                <div className="bg-white p-6 rounded-3xl border border-stone-200/20 shadow-xs flex items-center justify-between">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-stone-500 dark:text-stone-400">1년 누적 칭찬 등록</span>
-                    <span className="text-3xl font-black text-stone-900 dark:text-stone-50 block">
+                    <span className="text-xs font-bold text-stone-500">1년 누적 칭찬 등록</span>
+                    <span className="text-3xl font-black text-stone-900 block">
                       {stats1Year.totalPraises}건
                     </span>
                   </div>
@@ -524,10 +524,10 @@ export default function PraiseListPage() {
                 </div>
 
                 {/* Top cumulative receiver */}
-                <div className="bg-white dark:bg-stone-900/60 p-6 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs flex items-center justify-between">
+                <div className="bg-white p-6 rounded-3xl border border-stone-200/20 shadow-xs flex items-center justify-between">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-stone-500 dark:text-stone-400">1년 최다 칭찬왕</span>
-                    <span className="text-2xl font-black text-stone-900 dark:text-stone-50 block truncate max-w-[180px]">
+                    <span className="text-xs font-bold text-stone-500">1년 최다 칭찬왕</span>
+                    <span className="text-2xl font-black text-stone-900 block truncate max-w-[180px]">
                       {stats1Year.topReceiver ? `${stats1Year.topReceiver.name}` : '-'}
                       {stats1Year.topReceiver && (
                         <span className="text-xs font-medium text-stone-500 ml-1.5">
@@ -542,10 +542,10 @@ export default function PraiseListPage() {
                 </div>
 
                 {/* Top cumulative giver */}
-                <div className="bg-white dark:bg-stone-900/60 p-6 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs flex items-center justify-between">
+                <div className="bg-white p-6 rounded-3xl border border-stone-200/20 shadow-xs flex items-center justify-between">
                   <div className="space-y-1">
-                    <span className="text-xs font-bold text-stone-500 dark:text-stone-400">1년 최다 칭마에</span>
-                    <span className="text-2xl font-black text-stone-900 dark:text-stone-50 block truncate max-w-[180px]">
+                    <span className="text-xs font-bold text-stone-500">1년 최다 칭마에</span>
+                    <span className="text-2xl font-black text-stone-900 block truncate max-w-[180px]">
                       {stats1Year.topGiver ? `${stats1Year.topGiver.name}` : '-'}
                       {stats1Year.topGiver && (
                         <span className="text-xs font-medium text-stone-500 ml-1.5">
@@ -561,17 +561,17 @@ export default function PraiseListPage() {
               </div>
 
               {/* 1-Year Cumulative Stats Leaderboard */}
-              <div className="bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 shadow-xs overflow-hidden">
-                <div className="px-4 md:px-6 py-4 border-b border-stone-100 dark:border-stone-800/60 flex items-center gap-2">
+              <div className="bg-white rounded-3xl border border-stone-200/20 shadow-xs overflow-hidden">
+                <div className="px-4 md:px-6 py-4 border-b border-stone-100 flex items-center gap-2">
                   <Trophy className="w-4 h-4 text-amber-500" />
-                  <span className="text-sm font-bold text-stone-900 dark:text-stone-100">1년 누적 종합 랭킹 ({statsDateRangeLabel})</span>
+                  <span className="text-sm font-bold text-stone-900">1년 누적 종합 랭킹 ({statsDateRangeLabel})</span>
                 </div>
 
                 {/* Desktop Table */}
                 <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left border-collapse text-sm">
                     <thead>
-                      <tr className="bg-stone-100/50 dark:bg-stone-850/30 border-b border-stone-200/60 dark:border-stone-800/60">
+                      <tr className="bg-stone-100/50 border-b border-stone-200/60">
                         <th className="px-6 py-4 text-xs font-semibold text-stone-500 w-20 text-center">순위</th>
                         <th className="px-6 py-4 text-xs font-semibold text-stone-500">이름</th>
                         <th className="px-6 py-4 text-xs font-semibold text-stone-500 w-32 text-center">구분</th>
@@ -580,7 +580,7 @@ export default function PraiseListPage() {
                         <th className="px-6 py-4 text-xs font-semibold text-stone-500 text-right w-36">종합 점수</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
+                    <tbody className="divide-y divide-stone-200/50">
                       {stats1Year.leaderboard.map((item, idx, arr) => {
                         let rank = idx + 1;
                         if (idx > 0 && arr[idx - 1].received === item.received && arr[idx - 1].given === item.given) {
@@ -589,41 +589,41 @@ export default function PraiseListPage() {
                         }
 
                         return (
-                          <tr key={item.id} className="hover:bg-stone-50/40 dark:hover:bg-stone-850/10 transition-colors">
+                          <tr key={item.id} className="hover:bg-stone-50/40 transition-colors">
                             <td className="px-6 py-4 text-center">
                               <span
                                 className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${rank === 1
-                                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
+                                  ? 'bg-amber-100 text-amber-800'
                                   : rank === 2
-                                    ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
+                                    ? 'bg-stone-200 text-stone-800'
                                     : rank === 3
-                                      ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
-                                      : 'text-stone-500 dark:text-stone-400'
+                                      ? 'bg-orange-100 text-orange-800'
+                                      : 'text-stone-500'
                                   }`}
                               >
                                 {rank}
                               </span>
                             </td>
-                            <td className="px-6 py-4 font-semibold text-stone-900 dark:text-stone-100">
+                            <td className="px-6 py-4 font-semibold text-stone-900">
                               {item.name}
                             </td>
                             <td className="px-6 py-4 text-center">
                               <span
                                 className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold ${item.role === 'student'
-                                  ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                  : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                  ? 'bg-indigo-50/10 text-indigo-700'
+                                  : 'bg-emerald-50/10 text-emerald-700'
                                   }`}
                               >
                                 {item.role === 'student' ? '학생' : '선생님'}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-center text-stone-800 dark:text-stone-200">
+                            <td className="px-6 py-4 text-center text-stone-800">
                               {item.received}회
                             </td>
-                            <td className="px-6 py-4 text-center text-stone-850 dark:text-stone-250">
+                            <td className="px-6 py-4 text-center text-stone-800">
                               {item.given}회
                             </td>
-                            <td className="px-6 py-4 text-right font-black text-stone-900 dark:text-stone-50">
+                            <td className="px-6 py-4 text-right font-black text-stone-900">
                               {item.total}점
                             </td>
                           </tr>
@@ -641,7 +641,7 @@ export default function PraiseListPage() {
                 </div>
 
                 {/* Mobile Card List */}
-                <div className="md:hidden divide-y divide-stone-100 dark:divide-stone-800/50">
+                <div className="md:hidden divide-y divide-stone-100">
                   {stats1Year.leaderboard.length === 0 ? (
                     <div className="py-12 text-center text-stone-400 text-sm">1년간의 칭찬 집계 데이터가 없습니다.</div>
                   ) : (
@@ -655,22 +655,22 @@ export default function PraiseListPage() {
                         <div key={item.id} className="px-4 py-3.5 flex items-center gap-3">
                           <span
                             className={`flex-shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold ${rank === 1
-                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400'
+                              ? 'bg-amber-100 text-amber-800'
                               : rank === 2
-                                ? 'bg-stone-200 text-stone-800 dark:bg-stone-800 dark:text-stone-300'
+                                ? 'bg-stone-200 text-stone-800'
                                 : rank === 3
-                                  ? 'bg-orange-100 text-orange-800 dark:bg-orange-950/40 dark:text-orange-400'
-                                  : 'text-stone-500 dark:text-stone-400 w-7 h-7 flex items-center justify-center'
+                                  ? 'bg-orange-100 text-orange-800'
+                                  : 'text-stone-500 w-7 h-7 flex items-center justify-center'
                               }`}
                           >
                             {rank}
                           </span>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-stone-900 dark:text-stone-100 text-sm">{item.name}</span>
+                              <span className="font-semibold text-stone-900 text-sm">{item.name}</span>
                               <span className={`inline-flex px-1.5 py-0.5 rounded-full text-2xs font-semibold ${item.role === 'student'
-                                ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                ? 'bg-indigo-50/10 text-indigo-700'
+                                : 'bg-emerald-50/10 text-emerald-700'
                                 }`}>
                                 {item.role === 'student' ? '학생' : '선생님'}
                               </span>
@@ -680,7 +680,7 @@ export default function PraiseListPage() {
                               <span className="text-2xs text-stone-400">비도: {item.given}회</span>
                             </div>
                           </div>
-                          <span className="font-black text-stone-900 dark:text-stone-50 text-sm">{item.total}점</span>
+                          <span className="font-black text-stone-900 text-sm">{item.total}점</span>
                         </div>
                       );
                     })
@@ -695,24 +695,24 @@ export default function PraiseListPage() {
           {activeTab === 'users' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
               {/* Add User form */}
-              <div className="lg:col-span-5 bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 p-5 md:p-6 shadow-xs h-fit">
-                <div className="flex items-center gap-2 mb-4 border-b border-stone-200/50 dark:border-stone-850/40 pb-3">
+              <div className="lg:col-span-5 bg-white rounded-3xl border border-stone-200/20 p-5 md:p-6 shadow-xs h-fit">
+                <div className="flex items-center gap-2 mb-4 border-b border-stone-200/50 pb-3">
                   <div className="p-1.5 bg-amber-500/10 text-amber-600 rounded-lg">
                     <UserPlus className="w-4 h-4" />
                   </div>
-                  <h2 className="text-lg font-bold text-stone-900 dark:text-stone-50">사용자 등록</h2>
+                  <h2 className="text-lg font-bold text-stone-900">사용자 등록</h2>
                 </div>
 
                 <form onSubmit={handleRegisterUser} className="space-y-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-stone-500 dark:text-stone-400">구분 선택</label>
+                    <label className="text-xs font-bold text-stone-500">구분 선택</label>
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
                         onClick={() => setNewUserRole('student')}
                         className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${newUserRole === 'student'
-                          ? 'bg-indigo-55/10 border-indigo-350 text-indigo-700 dark:bg-indigo-950/20 dark:border-indigo-900 dark:text-indigo-400'
-                          : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
+                          ? 'bg-indigo-50/10 border-indigo-300 text-indigo-700'
+                          : 'border-stone-200 text-stone-600 hover:bg-stone-50'
                           }`}
                       >
                         <Users2 className="w-4 h-4" />
@@ -722,8 +722,8 @@ export default function PraiseListPage() {
                         type="button"
                         onClick={() => setNewUserRole('teacher')}
                         className={`py-3 rounded-2xl font-bold text-sm border flex items-center justify-center gap-2 transition-all cursor-pointer ${newUserRole === 'teacher'
-                          ? 'bg-emerald-55/10 border-emerald-350 text-emerald-700 dark:bg-emerald-950/20 dark:border-emerald-900 dark:text-emerald-400'
-                          : 'border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-850/40'
+                          ? 'bg-emerald-50/10 border-emerald-300 text-emerald-700'
+                          : 'border-stone-200 text-stone-600 hover:bg-stone-50'
                           }`}
                       >
                         <GraduationCap className="w-4 h-4" />
@@ -733,21 +733,21 @@ export default function PraiseListPage() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="user-name" className="text-xs font-bold text-stone-500 dark:text-stone-400">이름</label>
+                    <label htmlFor="user-name" className="text-xs font-bold text-stone-500">이름</label>
                     <input
                       id="user-name"
                       type="text"
                       value={newUserName}
                       onChange={(e) => setNewUserName(e.target.value)}
                       placeholder="등록할 이름을 입력하세요 (예: 홍길동)"
-                      className="w-full px-4 py-3 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/30 text-stone-900 dark:text-stone-100"
+                      className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-2xl text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500/30 text-stone-900"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={registeringUser}
-                    className="w-full py-3 bg-stone-900 hover:bg-stone-850 dark:bg-stone-50 dark:hover:bg-stone-200 text-stone-50 dark:text-stone-900 font-bold rounded-2xl text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-3 bg-stone-900 hover:bg-stone-800 text-stone-50 font-bold rounded-2xl text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {registeringUser ? (
                       <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -760,18 +760,18 @@ export default function PraiseListPage() {
               </div>
 
               {/* Registered Users List */}
-              <div className="lg:col-span-7 bg-white dark:bg-stone-900/60 rounded-3xl border border-stone-250/20 dark:border-stone-850/40 p-6 shadow-xs flex flex-col max-h-[500px]">
-                <div className="flex items-center justify-between mb-4 border-b border-stone-200/50 dark:border-stone-850/40 pb-3 shrink-0">
+              <div className="lg:col-span-7 bg-white rounded-3xl border border-stone-200/20 p-6 shadow-xs flex flex-col max-h-[500px]">
+                <div className="flex items-center justify-between mb-4 border-b border-stone-200/50 pb-3 shrink-0">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 bg-amber-500/10 text-amber-600 rounded-lg">
                       <Users className="w-4 h-4" />
                     </div>
-                    <h2 className="text-lg font-bold text-stone-900 dark:text-stone-50">등록된 사용자 목록</h2>
+                    <h2 className="text-lg font-bold text-stone-900">등록된 사용자 목록</h2>
                   </div>
                   <span className="text-xs text-stone-400 font-medium">총 {users.length}명</span>
                 </div>
 
-                <div className="flex-1 overflow-y-auto border border-stone-200/60 dark:border-stone-800/60 rounded-2xl">
+                <div className="flex-1 overflow-y-auto border border-stone-200/60 rounded-2xl">
                   {users.length === 0 ? (
                     <div className="p-12 text-center text-stone-400 text-sm">
                       등록된 사용자가 없습니다. 이름을 먼저 등록해 주세요.
@@ -779,21 +779,21 @@ export default function PraiseListPage() {
                   ) : (
                     <table className="w-full text-left border-collapse text-sm">
                       <thead>
-                        <tr className="bg-stone-50 border-b border-stone-200/60 dark:bg-stone-850/50 dark:border-stone-800/65 text-xs font-bold text-stone-500">
+                        <tr className="bg-stone-50 border-b border-stone-200/60 text-xs font-bold text-stone-500">
                           <th className="px-4 py-3">이름</th>
                           <th className="px-4 py-3 w-28 text-center">구분</th>
                           <th className="px-4 py-3 w-16 text-center">관리</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/50">
+                      <tbody className="divide-y divide-stone-200/50">
                         {users.map((u) => (
-                          <tr key={u.id} className="hover:bg-stone-50/40 dark:hover:bg-stone-850/20">
-                            <td className="px-4 py-2.5 font-semibold text-stone-900 dark:text-stone-100">{u.name}</td>
+                          <tr key={u.id} className="hover:bg-stone-50/40">
+                            <td className="px-4 py-2.5 font-semibold text-stone-900">{u.name}</td>
                             <td className="px-4 py-2.5 text-center">
                               <span
                                 className={`inline-flex px-2 py-0.5 rounded-full text-2xs font-semibold ${u.role === 'student'
-                                  ? 'bg-indigo-55/10 text-indigo-700 dark:text-indigo-400'
-                                  : 'bg-emerald-55/10 text-emerald-700 dark:text-emerald-400'
+                                  ? 'bg-indigo-50/10 text-indigo-700'
+                                  : 'bg-emerald-50/10 text-emerald-700'
                                   }`}
                               >
                                 {u.role === 'student' ? '학생' : '선생님'}
@@ -802,7 +802,7 @@ export default function PraiseListPage() {
                             <td className="px-4 py-2.5 text-center">
                               <button
                                 onClick={() => handleDeleteUser(u.id, u.name)}
-                                className="p-1 text-stone-400 hover:text-rose-500 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors cursor-pointer"
+                                className="p-1 text-stone-400 hover:text-rose-500 rounded-lg hover:bg-stone-100 transition-colors cursor-pointer"
                                 aria-label={`${u.name} 사용자 삭제`}
                               >
                                 <Trash2 className="w-4.5 h-4.5" />

@@ -43,7 +43,7 @@ export default function RootLayout({
       lang="ko"
       className={`${outfit.variable} ${notoSansKR.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-stone-50 dark:bg-stone-900 transition-colors">
+      <body className="min-h-full flex flex-col bg-stone-50 transition-colors">
         <ToastProvider>
           <Header />
           <main className="flex-1 animate-fade-in pb-20 md:pb-8 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">

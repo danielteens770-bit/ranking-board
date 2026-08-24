@@ -8,13 +8,10 @@ import { PraiseInputModal } from '@/components/PraiseInputModal';
 import { useToast } from '@/context/ToastContext';
 import {
   Trophy,
-  UserCheck,
   GraduationCap,
   Calendar,
   ChevronDown,
   ArrowRight,
-  TrendingUp,
-  MessageSquareHeart,
   Users,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -268,12 +265,12 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 md:space-y-8 pb-10 max-w-5xl mx-auto">
       {/* Top Section (Plain/Border-free layout) */}
-      <div className="flex flex-col gap-4 py-4 md:py-6 border-b border-stone-200 dark:border-stone-800">
+      <div className="flex flex-col gap-4 py-4 md:py-6 border-b border-stone-200">
         <div>
-          <h1 className="text-2xl md:text-4xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-black text-stone-900 tracking-tight">
             다니엘틴즈 칭찬왕 대시보드
           </h1>
-          <p className="text-xs md:text-sm text-stone-500 dark:text-stone-400 mt-1">
+          <p className="text-xs md:text-sm text-stone-500 mt-1">
             학교 구성원들이 전한 따뜻한 이야기를 실시간으로 확인해 보세요.
           </p>
         </div>
@@ -287,7 +284,7 @@ export default function DashboardPage() {
                 setLoading(true);
                 setSelectedMonth(e.target.value);
               }}
-              className="w-full sm:w-auto appearance-none pl-9 pr-9 py-3 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-750 text-stone-850 dark:text-stone-100 font-bold rounded-2xl text-sm transition-all cursor-pointer focus:outline-hidden"
+              className="w-full sm:w-auto appearance-none pl-9 pr-9 py-3 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold rounded-2xl text-sm transition-all cursor-pointer focus:outline-hidden"
               aria-label="조회할 월 선택"
             >
               {availableMonths.map((m) => (
@@ -302,7 +299,7 @@ export default function DashboardPage() {
 
           <button
             onClick={() => setInputModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-4 sm:px-6 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-stone-200 text-stone-50 dark:text-stone-900 font-extrabold rounded-2xl text-sm transition-all active:scale-98 cursor-pointer shadow-sm whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-4 sm:px-6 py-3 bg-stone-900 hover:bg-stone-800 text-stone-50 font-extrabold rounded-2xl text-sm transition-all active:scale-98 cursor-pointer shadow-sm whitespace-nowrap"
             aria-label="데이터 입력"
           >
             데이터 입력
@@ -327,18 +324,21 @@ export default function DashboardPage() {
             {/* 칭찬왕 */}
             <div
               onClick={() => topReceivers.length > 0 && openDetailModal(topReceivers, 'received')}
-              className={`relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100/60 dark:from-amber-955/20 dark:to-stone-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-350 dark:hover:border-amber-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topReceivers.length > 0 ? 'cursor-pointer' : ''
+              className={`relative overflow-hidden bg-amber-50 border border-amber-200 hover:border-amber-300 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topReceivers.length > 0 ? 'cursor-pointer' : ''
                 } active:scale-[0.99] hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-amber-900 dark:text-amber-300 text-lg font-black tracking-tight">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <div className="p-2 bg-amber-500 text-white rounded-xl shadow-sm">
+                    <Trophy className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="text-amber-900 text-lg font-black tracking-tight">
                     칭찬왕
                   </span>
                 </div>
                 {topReceivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className={`font-black text-amber-950 dark:text-amber-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topReceivers.length)}`}>
+                    <h2 className={`font-black text-amber-950 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topReceivers.length)}`}>
                       {topReceivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
@@ -351,19 +351,19 @@ export default function DashboardPage() {
                             {item.name}
                           </span>
                           {idx < topReceivers.length - 1 && (
-                            <span className="text-amber-400/80 dark:text-amber-600/80 font-medium mr-1">,</span>
+                            <span className="text-amber-400/80 font-medium mr-1">,</span>
                           )}
                         </React.Fragment>
                       ))}
                     </h2>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-amber-400 dark:text-amber-600">-</span>
+                  <span className="text-3xl font-bold text-amber-400">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-amber-200/60 dark:border-amber-900/30 pt-4">
-                <span className="text-xs font-semibold text-amber-700/80 dark:text-amber-400/80">횟수</span>
-                <span className="text-2xl font-black text-amber-950 dark:text-amber-100">
+              <div className="mt-6 flex items-center justify-between border-t border-amber-200/60 pt-4">
+                <span className="text-xs font-semibold text-amber-700/80">횟수</span>
+                <span className="text-2xl font-black text-amber-950">
                   {topReceivers.length > 0 ? `${topReceivers[0].count}회` : '0회'}
                 </span>
               </div>
@@ -372,18 +372,21 @@ export default function DashboardPage() {
             {/* 칭마에(학생) */}
             <div
               onClick={() => topStudentGivers.length > 0 && openDetailModal(topStudentGivers, 'given')}
-              className={`relative overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100/60 dark:from-indigo-950/30 dark:to-stone-900 border border-indigo-200 dark:border-indigo-900/40 hover:border-indigo-300 dark:hover:border-indigo-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topStudentGivers.length > 0 ? 'cursor-pointer' : ''
+              className={`relative overflow-hidden bg-indigo-50 border border-indigo-200 hover:border-indigo-300 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topStudentGivers.length > 0 ? 'cursor-pointer' : ''
                 } active:scale-[0.99] hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-indigo-900 dark:text-indigo-300 text-lg font-black tracking-tight">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <div className="p-2 bg-indigo-500 text-white rounded-xl shadow-sm">
+                    <Users className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="text-indigo-900 text-lg font-black tracking-tight">
                     칭마에(학생)
                   </span>
                 </div>
                 {topStudentGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className={`font-black text-indigo-950 dark:text-indigo-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topStudentGivers.length)}`}>
+                    <h2 className={`font-black text-indigo-950 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topStudentGivers.length)}`}>
                       {topStudentGivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
@@ -396,19 +399,19 @@ export default function DashboardPage() {
                             {item.name}
                           </span>
                           {idx < topStudentGivers.length - 1 && (
-                            <span className="text-indigo-400/80 dark:text-indigo-600/80 font-medium mr-1">,</span>
+                            <span className="text-indigo-400/80 font-medium mr-1">,</span>
                           )}
                         </React.Fragment>
                       ))}
                     </h2>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-indigo-400 dark:text-indigo-600">-</span>
+                  <span className="text-3xl font-bold text-indigo-400">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-indigo-200/60 dark:border-indigo-900/30 pt-4">
-                <span className="text-xs font-semibold text-indigo-700/80 dark:text-indigo-400/80">횟수</span>
-                <span className="text-2xl font-black text-indigo-950 dark:text-indigo-100">
+              <div className="mt-6 flex items-center justify-between border-t border-indigo-200/60 pt-4">
+                <span className="text-xs font-semibold text-indigo-700/80">횟수</span>
+                <span className="text-2xl font-black text-indigo-950">
                   {topStudentGivers.length > 0 ? `${topStudentGivers[0].count}회` : '0회'}
                 </span>
               </div>
@@ -417,18 +420,21 @@ export default function DashboardPage() {
             {/* 칭마에(교사) */}
             <div
               onClick={() => topTeacherGivers.length > 0 && openDetailModal(topTeacherGivers, 'given')}
-              className={`relative overflow-hidden bg-gradient-to-br from-emerald-50 to-emerald-100/60 dark:from-emerald-950/30 dark:to-stone-900 border border-emerald-200 dark:border-emerald-900/40 hover:border-emerald-300 dark:hover:border-emerald-800 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topTeacherGivers.length > 0 ? 'cursor-pointer' : ''
+              className={`relative overflow-hidden bg-emerald-50 border border-emerald-200 hover:border-emerald-300 rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-60 md:min-h-72 h-auto pb-5 md:pb-6 group ${topTeacherGivers.length > 0 ? 'cursor-pointer' : ''
                 } active:scale-[0.99] hover:scale-[1.02] transition-all duration-300 shadow-sm`}
             >
               <div>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-emerald-900 dark:text-emerald-300 text-lg font-black tracking-tight">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <div className="p-2 bg-emerald-500 text-white rounded-xl shadow-sm">
+                    <GraduationCap className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="text-emerald-900 text-lg font-black tracking-tight">
                     칭마에(교사)
                   </span>
                 </div>
                 {topTeacherGivers.length > 0 ? (
                   <div className="space-y-1">
-                    <h2 className={`font-black text-emerald-950 dark:text-emerald-100 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topTeacherGivers.length)}`}>
+                    <h2 className={`font-black text-emerald-950 tracking-tight transition-colors flex flex-wrap gap-x-2 gap-y-1 ${getFontSizeClass(topTeacherGivers.length)}`}>
                       {topTeacherGivers.map((item, idx) => (
                         <React.Fragment key={item.id}>
                           <span
@@ -441,19 +447,19 @@ export default function DashboardPage() {
                             {item.name}
                           </span>
                           {idx < topTeacherGivers.length - 1 && (
-                            <span className="text-emerald-400/80 dark:text-emerald-600/80 font-medium mr-1">,</span>
+                            <span className="text-emerald-400/80 font-medium mr-1">,</span>
                           )}
                         </React.Fragment>
                       ))}
                     </h2>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-emerald-400 dark:text-emerald-600">-</span>
+                  <span className="text-3xl font-bold text-emerald-400">-</span>
                 )}
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-emerald-200/60 dark:border-emerald-900/30 pt-4">
-                <span className="text-xs font-semibold text-emerald-700/80 dark:text-emerald-400/80">횟수</span>
-                <span className="text-2xl font-black text-emerald-950 dark:text-emerald-100">
+              <div className="mt-6 flex items-center justify-between border-t border-emerald-200/60 pt-4">
+                <span className="text-xs font-semibold text-emerald-700/80">횟수</span>
+                <span className="text-2xl font-black text-emerald-950">
                   {topTeacherGivers.length > 0 ? `${topTeacherGivers[0].count}회` : '0회'}
                 </span>
               </div>
